@@ -1,0 +1,24 @@
+{
+    // A Configuration Code For Vs-Code
+    "version": "0.2.0",
+    "configurations": [
+        {
+        "name": "Python: Odoo16",
+        "type": "python",
+        "request": "launch",
+        "stopOnEntry": false,
+        "python": "D:\\University Folder\\University Software\\odoo\\venv\\Scripts\\python.exe",
+        "console": "integratedTerminal",
+        "program": "${workspaceRoot}\\odoo-bin",
+        "args": [
+            "--config=${workspaceRoot}\\odoo.conf",
+            "-d", "TestOnly", "-u", "om_hospital"
+        ],
+        "cwd": "${workspaceRoot}",
+        "env": {},
+        "envFile": "${workspaceRoot}/.env",
+        "debugOptions": [
+            "RedirectOutput"
+        ]
+    }]
+}
