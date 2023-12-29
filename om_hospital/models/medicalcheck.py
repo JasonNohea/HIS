@@ -19,10 +19,11 @@ class MedicalCheck(models.Model):
     height = fields.Float(string="Height(Cm)", required=True, tracking=True)
     blood_pressure = fields.Float(string="Blood Pressure", required=True, tracking=True)
     spo2 = fields.Float(
-        string="Saturasi Oksigen (SpO2)",
+        string="Oxygen saturation (SpO2)",
         required=True,
         tracking=True,
     )
+    temperature = fields.Float(string="Temperature (°C)")
 
     @api.depends("patient_id.name")
     def _compute_capitalized_name(self):
