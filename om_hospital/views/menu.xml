@@ -8,4 +8,9 @@
         name="Operations"
         parent="menu_hospital_root"
         sequence="10" />
+
+    <menuitem id="menu_hospital_service"
+        name="Services"
+        parent="menu_hospital_root"
+        sequence="10" />
 </odoo>
