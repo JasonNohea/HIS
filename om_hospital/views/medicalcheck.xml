@@ -5,12 +5,34 @@
         <field name="model">medical.check</field>
         <field name="arch" type="xml">
             <form>
-                <group>
-                    <field name="patient_id" />
-                    <field name="check_date" />
-                    <!-- Add other fields as needed -->
-                </group>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="patient_id" />
+                        <field name="check_date" />
+                        <field name="weight" />
+                        <field name="height" />
+                        <field name="spo2" widget="percentage" />
+                        <!-- Add other fields as needed -->
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}" />
+                </div>
             </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_patient_tree" model="ir.ui.view">
+        <field name="name">hospital.medical.check.tree</field>
+        <field name="model">medical.check</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="patient_id" />
+                <field name="check_date" />
+            </tree>
         </field>
     </record>
 
