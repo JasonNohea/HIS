@@ -10,5 +10,6 @@
         "views/menu.xml",
         "views/patient.xml",
         "views/medicalcheck.xml",
+        "views/docexamine.xml",
     ],
 }

@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_hospital_medical_check_form" model="ir.ui.view">
-        <field name="name">hospital.medical.check.form</field>
-        <field name="model">medical.check</field>
+    <record id="view_hospital_doc_examine_form" model="ir.ui.view">
+        <field name="name">hospital.doctor.examine.form</field>
+        <field name="model">doctor.examination</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
                     <group>
                         <field name="name" />
                         <field name="patient_id" />
-                        <field name="check_date" />
-                        <field name="weight" />
-                        <field name="height" />
-                        <field name="spo2" widget="percentage" />
-                        <field name="temperature" />
+
                         <!-- Add other fields as needed -->
                     </group>
                 </sheet>
@@ -26,28 +22,28 @@
         </field>
     </record>
 
-    <record id="view_hospital_medcheck_tree" model="ir.ui.view">
-        <field name="name">hospital.medical.check.tree</field>
-        <field name="model">medical.check</field>
+    <record id="view_hospital_doc_examine_tree" model="ir.ui.view">
+        <field name="name">hospital.doctor.examine.tree</field>
+        <field name="model">doctor.examination</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="patient_id" />
-                <field name="check_date" />
+                <!-- <field name="check_date" /> -->
             </tree>
         </field>
     </record>
 
 
-    <record id="action_hospital_medcheck" model="ir.actions.act_window">
-        <field name="name">Medical Check Up</field>
+    <record id="action_hospital_docexamine" model="ir.actions.act_window">
+        <field name="name">Doctor Examination</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">medical.check</field>
+        <field name="res_model">doctor.examination</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_medcheck"
-        name="Medical Check Up"
+    <menuitem id="menu_docexamine"
+        name="Doctor Examination"
         parent="menu_hospital_operations"
-        action="action_hospital_medcheck"
+        action="action_hospital_docexamine"
         sequence="10" />
 </odoo>
