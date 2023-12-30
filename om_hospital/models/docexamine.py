@@ -19,6 +19,9 @@ class DoctorExamination(models.Model):
         string="Main Complaint",
         tracking=True,
     )
+    interim_diagnosis = fields.Char(
+        string="Interim Diagnosis", tracking=True, required=True
+    )
 
     @api.depends("patient_id.name")
     def _compute_capitalized_name(self):

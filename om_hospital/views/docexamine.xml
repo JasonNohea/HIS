@@ -9,7 +9,7 @@
                     <group>
                         <field name="name" />
                         <field name="patient_id" />
-
+                        <field name="main_complaint" />
                         <!-- Add other fields as needed -->
                     </group>
                 </sheet>

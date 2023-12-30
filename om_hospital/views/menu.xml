@@ -13,4 +13,5 @@
         name="Services"
         parent="menu_hospital_root"
         sequence="10" />
+
 </odoo>
