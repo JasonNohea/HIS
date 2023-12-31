@@ -10,6 +10,10 @@
                         <field name="name" />
                         <field name="patient_id" />
                         <field name="main_complaint" />
+                        <field name="interim_diagnosis" />
+                        <field name="additional_consult" />
+                        <field name="treatment_approach" />
+                        <field name="additional_note" />
                         <!-- Add other fields as needed -->
                     </group>
                 </sheet>

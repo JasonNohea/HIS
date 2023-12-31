@@ -22,6 +22,15 @@ class DoctorExamination(models.Model):
     interim_diagnosis = fields.Char(
         string="Interim Diagnosis", tracking=True, required=True
     )
+    additional_consult = fields.Char(
+        string="Additional Referrals or Consultations", tracking=True, required=True
+    )
+    treatment_approach = fields.Char(
+        string="Treatment Approach", tracking=True, required=True
+    )
+    additional_note = fields.Text(
+        string="Additional Notes or Doctor's Observations", tracking=True, required=True
+    )
 
     @api.depends("patient_id.name")
     def _compute_capitalized_name(self):
