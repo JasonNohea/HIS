@@ -12,6 +12,7 @@
                         <field name="check_date" />
                         <field name="weight" />
                         <field name="height" />
+                        <field name="blood_pressure" />
                         <field name="spo2" widget="percentage" />
                         <field name="temperature" />
                         <!-- Add other fields as needed -->

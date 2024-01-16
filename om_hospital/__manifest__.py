@@ -3,7 +3,7 @@
     "author": "Jason Nohea",
     "website": "https://www.testonly.test",
     "summary": "Odoo 16 Development",
-    "depends": ["mail"],
+    "depends": ["mail", "web"],
     "license": "AGPL-3",
     "data": [
         "security\ir.model.access.csv",

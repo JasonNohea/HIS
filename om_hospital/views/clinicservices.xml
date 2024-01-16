@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_hospital_doc_examine_form" model="ir.ui.view">
+    <record id="view_hospital_clinic_service_form" model="ir.ui.view">
         <field name="name">hospital.clinic.services.form</field>
         <field name="model">clinic.services</field>
         <field name="arch" type="xml">
@@ -22,11 +22,29 @@
         </field>
     </record>
 
-    <record id="view_hospital_doc_examine_kanban" model="ir.ui.view">
+    <record id="view_hospital_clinic_service_kanban" model="ir.ui.view">
         <field name="name">hospital.clinic.services.kanban</field>
         <field name="model">clinic.services</field>
         <field name="arch" type="xml">
             <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_image">
+                                <field name="service" widget="image"
+                                    options="{'widget': 'image', 'class': 'oe_avatar'}" />
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong>
+                                    <field name="service" />
+                                </strong>
+                                <div class="oe_kanban_content">
+                                    <field name="description" />
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
                 <field name="service" />
                 <field name="description" />
                 <field name="status" />
@@ -34,18 +52,17 @@
         </field>
     </record>
 
-    <record id="view_hospital_doc_examine_tree" model="ir.ui.view">
+    <record id="view_hospital_clinic_service_tree" model="ir.ui.view">
         <field name="name">hospital.clinic.services.tree</field>
         <field name="model">clinic.services</field>
         <field name="arch" type="xml">
-            <kanban>
+            <tree>
                 <field name="service" />
                 <field name="description" />
                 <field name="status" />
-            </kanban>
+            </tree>
         </field>
     </record>
-
 
     <record id="action_hospital_cliservice" model="ir.actions.act_window">
         <field name="name">Clinic Services</field>

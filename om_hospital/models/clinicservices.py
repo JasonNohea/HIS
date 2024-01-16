@@ -9,6 +9,9 @@ class ClinicServices(models.Model):
     _inherit = ["mail.thread"]
     _description = "Clinic Services"
 
+    name = fields.Char(
+        string="Name", tracking=True, compute="_compute_capitalized_name", store=True
+    )
     service = fields.Char(string="Service", required=True, tracking=True)
     description = fields.Text(string="Description")
     status = fields.Selection(
@@ -16,3 +19,11 @@ class ClinicServices(models.Model):
         string="Status",
         default="todo",
     )
+
+    @api.depends("service")
+    def _compute_capitalized_name(self):
+        for rec in self:
+            if rec.service:
+                rec.name = rec.service.upper()
+            else:
+                rec.name = ""
