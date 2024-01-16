@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hospital_doc_examine_form" model="ir.ui.view">
+        <field name="name">hospital.clinic.services.form</field>
+        <field name="model">clinic.services</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <!-- Add other fields as needed -->
+                        <field name="service" />
+                        <field name="description" />
+                        <field name="status" />
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_doc_examine_kanban" model="ir.ui.view">
+        <field name="name">hospital.clinic.services.kanban</field>
+        <field name="model">clinic.services</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="service" />
+                <field name="description" />
+                <field name="status" />
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_hospital_doc_examine_tree" model="ir.ui.view">
+        <field name="name">hospital.clinic.services.tree</field>
+        <field name="model">clinic.services</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="service" />
+                <field name="description" />
+                <field name="status" />
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="action_hospital_cliservice" model="ir.actions.act_window">
+        <field name="name">Clinic Services</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">clinic.services</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <menuitem id="menu_cliservice"
+        name="Clinic Services"
+        parent="menu_hospital_service"
+        action="action_hospital_cliservice"
+        sequence="10" />
+</odoo>

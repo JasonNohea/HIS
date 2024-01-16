@@ -4,10 +4,10 @@ from odoo.exceptions import ValidationError
 
 
 # creating databased
-class DoctorExamination(models.Model):
-    _name = "doctor.examination"
+class DoctorInspection(models.Model):
+    _name = "doctor.inspection"
     _inherit = ["mail.thread"]
-    _description = "Doctor Examination"
+    _description = "Doctor Inspection"
 
     name = fields.Char(
         string="Name", tracking=True, compute="_compute_capitalized_name", store=True
