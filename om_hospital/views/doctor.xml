@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hospital_clinic_doctor_form" model="ir.ui.view">
+        <field name="name">hospital.clinic.doctor.form</field>
+        <field name="model">clinic.doctor</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <!-- Add other fields as needed -->
+                        <field name="name" />
+                        <field name="photo" widget="image" />
+                        <field name="specialization" />
+                        <field name="description" />
+                        <field name="status" />
+
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" options="{'post_refresh': 'recipients'}" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_clinic_service_kanban" model="ir.ui.view">
+        <field name="name">hospital.clinic.doctor.kanban</field>
+        <field name="model">clinic.doctor</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_image">
+                                <div class="oe_avatar" style="width: 100px; height: 100px;">
+                                    <field name="photo" widget="image" />
+                                </div>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong>
+                                    <field name="name" />
+                                </strong>
+                                <div class="oe_kanban_content">
+                                    <field name="specialization" />
+                                    <field name="description" />
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+                <field name="name" />
+                <field name="specialization" />
+                <field name="description" />
+                <field name="status" />
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_hospital_clinic_service_tree" model="ir.ui.view">
+        <field name="name">hospital.clinic.doctor.tree</field>
+        <field name="model">clinic.doctor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <!-- <field name="photo" widget="image" string="Image" /> -->
+                <field name="specialization" />
+                <!-- <field name="description" /> -->
+                <field name="status" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_hospital_doctor" model="ir.actions.act_window">
+        <field name="name">Clinic Doctor</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">clinic.doctor</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <menuitem id="menu_doctor"
+        name="Doctor"
+        parent="menu_hospital_service"
+        action="action_hospital_doctor"
+        sequence="10" />
+</odoo>

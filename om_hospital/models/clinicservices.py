@@ -10,7 +10,7 @@ class ClinicServices(models.Model):
     _description = "Clinic Services"
 
     name = fields.Char(
-        string="Name", tracking=True, compute="_compute_capitalized_name", store=True
+        string="Name", tracking=True, compute="_fetch_service", store=True
     )
     service = fields.Char(string="Service", required=True, tracking=True)
     description = fields.Text(string="Description")
@@ -21,9 +21,9 @@ class ClinicServices(models.Model):
     )
 
     @api.depends("service")
-    def _compute_capitalized_name(self):
+    def _fetch_service(self):
         for rec in self:
             if rec.service:
-                rec.name = rec.service.upper()
+                rec.name = rec.service
             else:
                 rec.name = ""
