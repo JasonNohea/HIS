@@ -10,10 +10,12 @@ class HospitalPatient(models.Model):
     _description = "Patient Records"
 
     name = fields.Char(string="Name", required=True, tracking=True)
+    ref = fields.Char(string="Reference", default=lambda self: _("New"))
     place_of_birth = fields.Char(string="Place of Birth", required=True, tracking=True)
     date_of_birth = fields.Date(
         string="Date of Birth",
         default=False,
+        required=True,
         # default=lambda self: fields.Date.today(),
         # Add a domain to restrict the date range
         # domain="[('date', '<=', fields.Date.today())]",
@@ -101,13 +103,14 @@ class HospitalPatient(models.Model):
         tracking=True,
     )
     family_relation = fields.Char(string="Relation", tracking=True)  # required=True,
-    family_phone = fields.Char(string="Phone Number", tracking=True)
+    family_phone = fields.Char(string="Phone Number", tracking=True, required=True)
 
     @api.model_create_multi
     def create(self, vals_list):
         # Modify the values in each dictionary
         for vals in vals_list:
-            vals["gender"] = "female"
+            vals["ref"] = self.env["ir.sequence"].next_by_code("hospital.patient")
+            # vals["gender"] = "female"
         return super(HospitalPatient, self).create(vals_list)
 
     @api.constrains("is_child", "age")

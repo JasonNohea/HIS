@@ -6,17 +6,22 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ref" readonly="1" />
+                        </h1>
+                    </div>
                     <group string="Personal Information">
                         <group>
-                            <field name="name" />
+                            <field name="name" required="1" />
                             <!-- <field name="capitalized_name" /> -->
                             <field name="gender" widget="radio" options="{'horizontal': true}" />
                             <field name="age" />
                             <field name="is_child" />
                             <field name="phone" />
-                            <field name="place_of_birth" />
-                            <field name="date_of_birth" />
-                            <field name="address" />
+                            <field name="place_of_birth" required="1" />
+                            <field name="date_of_birth" required="1" />
+                            <field name="address" required="1" />
                             <field name="job" />
                         </group>
                         <group>
@@ -32,10 +37,10 @@
                     </group>
 
                     <group string="Contactable family members">
-                        <field name="family_name" />
+                        <field name="family_name" required="1" />
                         <field name="family_gender" widget="radio" options="{'horizontal': true}" />
                         <field name="family_relation" />
-                        <field name="family_phone" />
+                        <field name="family_phone" required="1" />
                     </group>
 
                 </sheet>
@@ -52,6 +57,7 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="ref" />
                 <field name="name" />
                 <field name="age" />
                 <field name="gender" />
