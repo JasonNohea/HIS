@@ -8,6 +8,7 @@ class HospitalPatient(models.Model):
     _name = "hospital.patient"
     _inherit = ["mail.thread"]
     _description = "Patient Records"
+    # _rec_name = "ref" #if you want to the ref code to show instead of name
 
     name = fields.Char(string="Name", required=True, tracking=True)
     ref = fields.Char(string="Reference", default=lambda self: _("New"))
