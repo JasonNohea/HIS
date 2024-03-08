@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_qr_root"
+        name="QR Test"
+        sequence="10" />
+
+    <menuitem id="menu_qr_operations"
+        name="QR Operations"
+        parent="menu_qr_root"
+        sequence="10" />
+
+</odoo>
