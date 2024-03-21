@@ -9,7 +9,7 @@
                     <group>
                         <!-- Add other fields as needed -->
                         <field name="name" />
-                        <field name="photo" widget="image" />
+                        <field name="photo" widget="image" style="width: 100px; height: 100px;" />
                         <field name="specialization" />
                         <field name="description" />
                         <field name="status" />
