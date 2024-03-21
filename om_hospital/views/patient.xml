@@ -11,20 +11,25 @@
                             <field name="ref" readonly="1" />
                         </h1>
                     </div>
+                    <field name="photo" widget="image" style="width: 200px; height: 250px;" />
                     <group string="Personal Information">
                         <group>
-                            <field name="name" required="1" />
+                            <field name="name" string="Name" required="1" />
+                            <field name="phone" />
                             <!-- <field name="capitalized_name" /> -->
                             <field name="gender" widget="radio" options="{'horizontal': true}" />
-                            <field name="age" />
-                            <field name="is_child" />
-                            <field name="phone" />
+                            <field name="bloodtype" widget="selection_badge"
+                                options="{'horizontal': true}" />
                             <field name="place_of_birth" required="1" />
                             <field name="date_of_birth" required="1" />
+                            <field name="daycount" />
+                            <field name="monthcount" />
+                            <field name="yearcount" />
                             <field name="address" required="1" />
-                            <field name="job" />
                         </group>
+
                         <group>
+                            <field name="job" />
                             <field name="residential_code" />
                             <field name="neighborhood_code" />
                             <field name="sub_district" />
@@ -59,8 +64,8 @@
             <tree>
                 <field name="ref" />
                 <field name="name" />
-                <field name="age" />
                 <field name="gender" />
+                <field name="yearcount" />
             </tree>
         </field>
     </record>
@@ -74,7 +79,7 @@
 
     <menuitem id="menu_patients"
         name="Patients"
-        parent="menu_hospital_operations"
+        parent="menu_hospital_master"
         action="action_hospital_patient"
         sequence="10" />
 </odoo>
