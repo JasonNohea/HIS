@@ -2,10 +2,10 @@
 <odoo>
     <data noupdate="0">
         <!-- Patient Sequence -->
-        <record id="seq_patient_ref" model="ir.sequence">
-            <field name="name">Patient Reference</field>
-            <field name="code">patient.ref</field>
-            <field name="prefix">PAT</field>
+        <record id="seq_testfield_ref" model="ir.sequence">
+            <field name="name">Test Reference</field>
+            <field name="code">TestField.ref</field>
+            <field name="prefix">test</field>
             <field name="padding">4</field>
         </record>
     </data>
