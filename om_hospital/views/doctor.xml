@@ -6,14 +6,30 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <group>
+                    <field name="photo" widget="image" style="width: 200px; height: 250px;" />
+                    <group string="Personal Information">
+                        <group>
+                            <field name="name" />
+                            <field name="gender" />
+                            <field name="phone" />
+                            <field name="address" />
+                        </group>
                         <!-- Add other fields as needed -->
-                        <field name="name" />
-                        <field name="photo" widget="image" style="width: 100px; height: 100px;" />
+                        <group>
+                            <field name="date_of_birth" />
+                            <field name="place_of_birth" />
+                            <field name="marital_status" />
+                        </group>
+
+                    </group>
+                    <group string="Profesional Information">
+                        <field name="medical_license_num" />
                         <field name="specialization" />
+                        <field name="experience" />
+                        <field name="education" />
+                        <field name="work_history" />
                         <field name="description" />
                         <field name="status" />
-
                     </group>
                 </sheet>
 
