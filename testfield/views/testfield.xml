@@ -9,26 +9,42 @@
                     <sheet>
                         <group>
                             <field name="name" />
-                            <field name="ref_code" />
-                            <!-- Add more fields here as per your patient model -->
+                            <field name="file" />
+                            <field name="model_id" />
+                            <field name="ref_code" readonly="1" />
+                            <!-- Add more fields here as per your testfield model -->
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
+
+        <record id="view_testfield_attachment_form" model="ir.ui.view">
+            <field name="name">testfield.attachment.form</field>
+            <field name="model">testfield.attachment</field>
+            <field name="arch" type="xml">
+                <form string="TestField Attachment Form">
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="attachments" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_testfield" model="ir.actions.act_window">
+            <field name="name">TestField</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">testfield.model</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="testtest"
+            name="TestField"
+            parent="menu_test"
+            action="action_testfield"
+            sequence="10" />
     </data>
-
-    <record id="action_testfield" model="ir.actions.act_window">
-        <field name="name">TestField</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">testfield.model</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <menuitem id="testtest"
-        name="TestField"
-        parent="menu_test"
-        action="action_testfield"
-        sequence="10" />
-
 </odoo>

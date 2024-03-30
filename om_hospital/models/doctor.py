@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+import re
 
 
 # creating databased
@@ -14,6 +15,7 @@ class ClinicDoctor(models.Model):
     specialization = fields.Char(string="Specialization", required=True, tracking=True)
     description = fields.Text(string="Description")
     phone = fields.Char(string="Phone Number", tracking=True)
+    email = fields.Char(string="Email", help="Enter email address", widget="email")
     address = fields.Text(string="Address", required=True, tracking=True)
     place_of_birth = fields.Char(string="Place of Birth", required=True, tracking=True)
     medical_license_num = fields.Char(string="Medical License Number", tracking=True)
@@ -50,6 +52,13 @@ class ClinicDoctor(models.Model):
         default="standby",
         required=True,
     )
+
+    @api.constrains("email")
+    def _check_valid_email(self):
+        for record in self:
+            if record.email:
+                if not re.match(r"[^@]+@[^@]+\.[^@]+", record.email):
+                    raise ValidationError("Invalid email address: %s" % record.email)
 
     # @api.depends("service")
     # def _fetch_service(self):

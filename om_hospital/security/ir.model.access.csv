@@ -4,3 +4,4 @@ om_hospital.access_medical_check,access_medical_check,om_hospital.model_medical_
 om_hospital.access_doctor_inspection,access_doctor_inspection,om_hospital.model_doctor_inspection,base.group_user,1,1,1,1
 om_hospital.access_clinic_services,access_clinic_services,om_hospital.model_clinic_services,base.group_user,1,1,1,1
 om_hospital.access_clinic_doctor,access_clinic_doctor,om_hospital.model_clinic_doctor,base.group_user,1,1,1,1
+om_hospital.access_clinic_nurse,access_clinic_nurse,om_hospital.model_clinic_nurse,base.group_user,1,1,1,1

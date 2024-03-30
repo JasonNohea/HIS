@@ -12,6 +12,7 @@
                             <field name="name" />
                             <field name="gender" />
                             <field name="phone" />
+                            <field name="email" />
                             <field name="address" />
                         </group>
                         <!-- Add other fields as needed -->
