@@ -10,6 +10,8 @@
         "data/sequence.xml",
         "views/menu.xml",
         "views/patient.xml",
+        "views/rooms.xml",
+        "views/action.xml",
         "views/nurse.xml",
         "views/medicalcheck.xml",
         "views/docinspect.xml",

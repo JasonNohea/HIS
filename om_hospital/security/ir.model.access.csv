@@ -5,3 +5,5 @@ om_hospital.access_doctor_inspection,access_doctor_inspection,om_hospital.model_
 om_hospital.access_clinic_services,access_clinic_services,om_hospital.model_clinic_services,base.group_user,1,1,1,1
 om_hospital.access_clinic_doctor,access_clinic_doctor,om_hospital.model_clinic_doctor,base.group_user,1,1,1,1
 om_hospital.access_clinic_nurse,access_clinic_nurse,om_hospital.model_clinic_nurse,base.group_user,1,1,1,1
+om_hospital.access_clinic_rooms,access_clinic_rooms,om_hospital.model_clinic_rooms,base.group_user,1,1,1,1
+om_hospital.access_clinic_action,access_clinic_action,om_hospital.model_clinic_action,base.group_user,1,1,1,1
