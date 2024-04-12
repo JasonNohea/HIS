@@ -40,7 +40,7 @@
 
 
     <record id="action_hospital_medcheck" model="ir.actions.act_window">
-        <field name="name">Medical Check Up</field>
+        <field name="name">Pre Medication</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.check</field>
         <field name="view_mode">tree,form</field>

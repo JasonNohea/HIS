@@ -6,3 +6,5 @@ from . import doctor
 from . import nurse
 from . import rooms
 from . import action
+from . import equipment
+from . import frontoffice

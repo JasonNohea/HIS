@@ -8,6 +8,16 @@ class testfield(models.Model):
 
     name = fields.Char(string="Name")
     ref_code = fields.Char(string="Reference Code", readonly=True)
+    choose = fields.Selection([("yes", "Yes"), ("no", "No")], string="Combo Box Field")
+    field = fields.Char(string="Editable Field", readonly=True)
+    file = fields.Binary(string="File")
+
+    @api.onchange("choose")
+    def _onchange_choose(self):
+        if self.choose == "yes":
+            self.field = False
+        elif self.choose == "no":
+            self.field = True
 
     @api.model
     def create(self, vals):

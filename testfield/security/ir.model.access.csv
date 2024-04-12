@@ -1,3 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 testfield.access_testfield_model,access_testfield_model,testfield.model_testfield_model,base.group_user,1,1,1,1
-testfield.access_testfield_attachment,access_testfield_attachment,testfield.model_testfield_attachment,base.group_user,1,1,1,1

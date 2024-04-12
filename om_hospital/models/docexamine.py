@@ -31,6 +31,8 @@ class DoctorInspection(models.Model):
     additional_note = fields.Text(
         string="Additional Notes or Doctor's Observations", tracking=True
     )
+    action = fields.Many2many("clinic.action", string="Action")
+    equipment = fields.Many2many("clinic.equipment", string="Equipment & Supply")
 
     @api.depends("patient_id.name")
     def _compute_capitalized_name(self):

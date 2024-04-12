@@ -7,9 +7,10 @@ class nurse(models.Model):
     _description = "Clinic Action"
 
     name = fields.Char(string="Name")
+    cost = fields.Float(string="Cost")
     description = fields.Text(string="Description")
     status = fields.Selection(
-        [("working", "working"), ("standby", "On Standby")],
+        [("available", "Available"), ("not available", "Not Available")],
         string="Status",
         default="standby",
         required=True,

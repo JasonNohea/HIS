@@ -14,6 +14,8 @@
                         <field name="additional_consult" />
                         <field name="treatment_approach" />
                         <field name="additional_note" />
+                        <field name="action" widget="many2many_checkboxes" />
+                        <field name="equipment" widget="many2many_checkboxes" />
                         <!-- Add other fields as needed -->
                     </group>
                 </sheet>

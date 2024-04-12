@@ -7,9 +7,25 @@ class nurse(models.Model):
     _description = "Clinic Rooms"
 
     name = fields.Char(string="Name")
+    type = fields.Selection(
+        [
+            ("examination", "Examination Room"),
+            ("consultaion", "Consultaion Room"),
+            ("emergency", "Emergency Room"),
+            ("treatment", "Treatment Room"),
+            ("patient", "Patient Room"),
+        ],
+        string="Room Type",
+    )
+    capacity = fields.Integer(string="Capacity")
+    equipment = fields.Many2many("clinic.equipment", string="Equipment Available")
     description = fields.Text(string="Description")
     status = fields.Selection(
-        [("working", "working"), ("standby", "On Standby")],
+        [
+            ("vacant", "Vacant"),
+            ("occupied", "Occupied"),
+            ("unavailable", "Unavailable"),
+        ],
         string="Status",
         default="standby",
         required=True,

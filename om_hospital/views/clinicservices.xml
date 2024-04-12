@@ -73,7 +73,7 @@
 
     <menuitem id="menu_cliservice"
         name="Clinic Services"
-        parent="menu_hospital_service"
+        parent="menu_hospital_pos"
         action="action_hospital_cliservice"
         sequence="10" />
 </odoo>
