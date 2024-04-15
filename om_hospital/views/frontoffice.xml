@@ -8,6 +8,7 @@
                 <sheet>
                     <group name="name">
                         <field name="name" />
+                        <field name="room_assigned" />
                         <field name="cost" />
                         <field name="description" />
                         <!-- Add other fields as needed -->
@@ -43,9 +44,9 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_action"
-        name="frontoffice"
-        parent="menu_hospital_master"
+    <menuitem id="menu_frontoffice"
+        name="Front Office"
+        parent="menu_hospital_frontoffice"
         action="action_hospital_frontoffice"
         sequence="10" />
 </odoo>

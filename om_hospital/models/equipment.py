@@ -8,7 +8,7 @@ class nurse(models.Model):
 
     name = fields.Char(string="Name")
     stock = fields.Integer(string="Stock")
-    cost = fields.Float(string="Cost")
+    cost = fields.Float(string="Usage Cost")
     type = fields.Selection(
         [
             ("supply", "Supply"),

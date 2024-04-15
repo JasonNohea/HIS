@@ -12,6 +12,6 @@ class nurse(models.Model):
     status = fields.Selection(
         [("available", "Available"), ("not available", "Not Available")],
         string="Status",
-        default="standby",
+        default="available",
         required=True,
     )

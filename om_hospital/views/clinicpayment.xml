@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="view_hospital_clinic_service_form" model="ir.ui.view">
-        <field name="name">hospital.clinic.services.form</field>
-        <field name="model">clinic.services</field>
+        <field name="name">hospital.clinic.payment.form</field>
+        <field name="model">clinic.payment</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -23,8 +23,8 @@
     </record>
 
     <record id="view_hospital_clinic_service_kanban" model="ir.ui.view">
-        <field name="name">hospital.clinic.services.kanban</field>
-        <field name="model">clinic.services</field>
+        <field name="name">hospital.clinic.payment.kanban</field>
+        <field name="model">clinic.payment</field>
         <field name="arch" type="xml">
             <kanban>
                 <templates>
@@ -53,8 +53,8 @@
     </record>
 
     <record id="view_hospital_clinic_service_tree" model="ir.ui.view">
-        <field name="name">hospital.clinic.services.tree</field>
-        <field name="model">clinic.services</field>
+        <field name="name">hospital.clinic.payment.tree</field>
+        <field name="model">clinic.payment</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
@@ -64,16 +64,16 @@
         </field>
     </record>
 
-    <record id="action_hospital_cliservice" model="ir.actions.act_window">
-        <field name="name">Clinic Services</field>
+    <record id="action_hospital_payment" model="ir.actions.act_window">
+        <field name="name">Clinic Payment</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">clinic.services</field>
+        <field name="res_model">clinic.payment</field>
         <field name="view_mode">kanban,tree,form</field>
     </record>
 
-    <menuitem id="menu_cliservice"
-        name="Clinic Services"
+    <menuitem id="menu_payment"
+        name="Clinic payment"
         parent="menu_hospital_pos"
-        action="action_hospital_cliservice"
+        action="action_hospital_payment"
         sequence="10" />
 </odoo>

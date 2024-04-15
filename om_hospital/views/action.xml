@@ -39,7 +39,7 @@
 
 
     <record id="action_hospital_action" model="ir.actions.act_window">
-        <field name="name">Action</field>
+        <field name="name">Clinic Action</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">clinic.action</field>
         <field name="view_mode">tree,form</field>

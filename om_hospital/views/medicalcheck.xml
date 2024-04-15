@@ -8,7 +8,7 @@
                 <sheet>
                     <group>
                         <field name="name" />
-                        <field name="patient_id" />
+                        <!-- <field name="patient_id" /> -->
                         <field name="check_date" />
                         <field name="weight" />
                         <field name="height" />
@@ -32,7 +32,7 @@
         <field name="model">medical.check</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="patient_id" />
+                <field name="name" />
                 <field name="check_date" />
             </tree>
         </field>

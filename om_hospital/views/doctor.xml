@@ -23,7 +23,7 @@
                         </group>
 
                     </group>
-                    <group string="Profesional Information">
+                    <group string="Professional Information">
                         <field name="medical_license_num" />
                         <field name="specialization" />
                         <field name="experience" />

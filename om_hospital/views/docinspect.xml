@@ -8,14 +8,18 @@
                 <sheet>
                     <group>
                         <field name="name" />
-                        <field name="patient_id" />
+                        <!-- <field name="patient_id" /> -->
                         <field name="main_complaint" />
                         <field name="interim_diagnosis" />
                         <field name="additional_consult" />
-                        <field name="treatment_approach" />
+                        <!-- <field name="treatment_approach" /> -->
                         <field name="additional_note" />
                         <field name="action" widget="many2many_checkboxes" />
                         <field name="equipment" widget="many2many_checkboxes" />
+                        <field name="action_cost" />
+                        <field name="equipment_cost" />
+                        <field name="total_cost" />
+                        <field name="display" invisible="1" />
                         <!-- Add other fields as needed -->
                     </group>
                 </sheet>
@@ -33,10 +37,10 @@
         <field name="model">doctor.inspection</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="patient_id" />
+                <field name="name" />
                 <field name="main_complaint" />
-                <field name="treatment_approach" />
-                <!-- <field name="check_date" /> -->
+                <!-- <field name="treatment_approach" /> -->
+                <field name="display" />
             </tree>
         </field>
     </record>

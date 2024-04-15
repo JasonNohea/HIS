@@ -6,6 +6,13 @@ class nurse(models.Model):
     _inherit = ["mail.thread"]
     _description = "Clinic Front Office"
 
-    name = fields.Char(string="Name")
-    cost = fields.Float(string="Cost")
+    name = name = fields.Many2one(
+        comodel_name="hospital.patient", string="Patient", required=True
+    )
+    room_assigned = fields.Many2one(
+        comodel_name="clinic.rooms", string="Rooms Assigned", required=True
+    )
+    cost = fields.Many2one(
+        comodel_name="doctor.inspection", string="Cost", required=True
+    )
     description = fields.Text(string="Description")

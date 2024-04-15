@@ -16,7 +16,7 @@ class ClinicDoctor(models.Model):
     description = fields.Text(string="Description")
     phone = fields.Char(string="Phone Number", tracking=True)
     email = fields.Char(string="Email", help="Enter email address", widget="email")
-    address = fields.Text(string="Address", required=True, tracking=True)
+    address = fields.Text(string="Address", required=False, tracking=True)
     place_of_birth = fields.Char(string="Place of Birth", required=True, tracking=True)
     medical_license_num = fields.Char(string="Medical License Number", tracking=True)
     experience = fields.Integer(string="Years of Experience", tracking=True)

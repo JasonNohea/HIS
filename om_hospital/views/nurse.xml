@@ -16,7 +16,7 @@
 
                         <!-- Add other fields as needed -->
                     </group>
-                    <group name="name" string="string">
+                    <group name="name" string="Professional Information">
                         <field name="place_of_birth" />
                         <field name="description" />
                         <field name="status" />

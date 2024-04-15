@@ -8,12 +8,15 @@ class MedicalCheck(models.Model):
     _inherit = ["mail.thread"]
     _description = "Medical Checkup"
 
-    name = fields.Char(
-        string="Name", tracking=True, compute="_compute_capitalized_name", store=True
-    )
-    patient_id = fields.Many2one(
+    name = fields.Many2one(
         comodel_name="hospital.patient", string="Patient", required=True
     )
+    # name = fields.Char(
+    #     string="Patient", tracking=True, compute="_compute_capitalized_name", store=True
+    # )
+    # patient_id = fields.Many2one(
+    #     comodel_name="hospital.patient", string="Patient", required=True
+    # )
     check_date = fields.Date(string="Check Date", default=fields.Date.today)
     weight = fields.Float(string="Weight(Kg)", required=True, tracking=True)
     height = fields.Float(string="Height(Cm)", required=True, tracking=True)
@@ -25,10 +28,10 @@ class MedicalCheck(models.Model):
     )
     temperature = fields.Float(string="Temperature (°C)")
 
-    @api.depends("patient_id.name")
-    def _compute_capitalized_name(self):
-        for rec in self:
-            if rec.patient_id:
-                rec.name = rec.patient_id.name.upper()
-            else:
-                rec.name = ""
+    # @api.depends("patient_id.name")
+    # def _compute_capitalized_name(self):
+    #     for rec in self:
+    #         if rec.patient_id:
+    #             rec.name = rec.patient_id.name.upper()
+    #         else:
+    #             rec.name = ""
