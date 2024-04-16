@@ -7,8 +7,10 @@
             <form>
                 <sheet>
                     <group>
+                        <field name="ref" readonly="1" />
                         <field name="name" />
-                        <!-- <field name="patient_id" /> -->
+                        <field name="doctor_assigned" />
+                        <field name="nurse_assigned" />
                         <field name="main_complaint" />
                         <field name="interim_diagnosis" />
                         <field name="additional_consult" />
@@ -37,6 +39,7 @@
         <field name="model">doctor.inspection</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="ref" />
                 <field name="name" />
                 <field name="main_complaint" />
                 <!-- <field name="treatment_approach" /> -->

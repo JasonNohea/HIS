@@ -12,6 +12,13 @@ class DoctorInspection(models.Model):
     name = fields.Many2one(
         comodel_name="hospital.patient", string="Patient", required=True
     )
+    ref = fields.Char(string="Reference", default=lambda self: _("New"))
+    doctor_assigned = fields.Many2one(
+        comodel_name="clinic.doctor", string="Doctor Assigned", required=True
+    )
+    nurse_assigned = fields.Many2one(
+        comodel_name="clinic.nurse", string="Nurse Assigned", required=True
+    )
     main_complaint = fields.Char(
         string="Main Complaint",
         tracking=True,
@@ -67,3 +74,11 @@ class DoctorInspection(models.Model):
     def _compute_total_cost(self):
         for check in self:
             check.total_cost = check.action_cost + check.equipment_cost
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Modify the values in each dictionary
+        for vals in vals_list:
+            vals["ref"] = self.env["ir.sequence"].next_by_code("doctor.inspection")
+            # vals["gender"] = "female"
+        return super(DoctorInspection, self).create(vals_list)

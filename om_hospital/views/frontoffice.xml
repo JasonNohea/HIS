@@ -9,7 +9,7 @@
                     <group name="name">
                         <field name="name" />
                         <field name="room_assigned" />
-                        <field name="cost" />
+                        <field name="order" />
                         <field name="description" />
                         <!-- Add other fields as needed -->
                     </group>
@@ -30,7 +30,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
-                <field name="cost" />
+                <!-- <field name="cost" /> -->
                 <!-- <field name="check_date" /> -->
             </tree>
         </field>
