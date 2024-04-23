@@ -13,6 +13,7 @@
         "views/rooms.xml",
         "views/action.xml",
         "views/nurse.xml",
+        "views/equipmentusage.xml",
         "views/frontoffice.xml",
         "views/equipment.xml",
         "views/medicalcheck.xml",

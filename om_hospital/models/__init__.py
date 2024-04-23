@@ -9,3 +9,4 @@ from . import rooms
 from . import action
 from . import equipment
 from . import frontoffice
+from . import equsage

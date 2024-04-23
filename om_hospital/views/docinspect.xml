@@ -9,15 +9,18 @@
                     <group>
                         <field name="ref" readonly="1" />
                         <field name="name" />
+                        <field name="check_date" />
                         <field name="doctor_assigned" />
                         <field name="nurse_assigned" />
                         <field name="main_complaint" />
                         <field name="interim_diagnosis" />
                         <field name="additional_consult" />
                         <!-- <field name="treatment_approach" /> -->
+                        <field name="prescription" />
                         <field name="additional_note" />
                         <field name="action" widget="many2many_checkboxes" />
-                        <field name="equipment" widget="many2many_checkboxes" />
+                        <field name="equipment" />
+                        <field name="equipment_line_ids" />
                         <field name="action_cost" />
                         <field name="equipment_cost" />
                         <field name="total_cost" />

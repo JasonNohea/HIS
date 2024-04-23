@@ -10,6 +10,7 @@
                         <field name="name" />
                         <field name="stock" />
                         <field name="type" widget="radio" options="{'horizontal': true}" />
+                        <!-- <field name="quantity" /> -->
                         <field name="cost" />
                         <field name="provider" />
                         <field name="description" />
@@ -36,6 +37,7 @@
                 <field name="cost" />
                 <field name="stock" />
                 <field name="status" />
+                <!-- <field name="quantity" /> -->
                 <!-- <field name="check_date" /> -->
             </tree>
         </field>

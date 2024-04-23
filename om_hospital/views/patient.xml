@@ -79,7 +79,7 @@
 
     <menuitem id="menu_patients"
         name="Patients"
-        parent="menu_hospital_master"
+        parent="menu_hospital_frontoffice"
         action="action_hospital_patient"
         sequence="10" />
 </odoo>

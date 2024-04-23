@@ -8,11 +8,13 @@ class DoctorInspection(models.Model):
     _name = "doctor.inspection"
     _inherit = ["mail.thread"]
     _description = "Doctor Inspection"
+    _rec_name = "ref"
 
     name = fields.Many2one(
         comodel_name="hospital.patient", string="Patient", required=True
     )
     ref = fields.Char(string="Reference", default=lambda self: _("New"))
+    check_date = fields.Date(string="Check Date", default=fields.Date.today)
     doctor_assigned = fields.Many2one(
         comodel_name="clinic.doctor", string="Doctor Assigned", required=True
     )
@@ -32,12 +34,16 @@ class DoctorInspection(models.Model):
     # treatment_approach = fields.Char(
     #     string="Treatment Approach", tracking=True, required=True
     # )
+    prescription = fields.Text(string="Prescription", tracking=True)
     additional_note = fields.Text(
         string="Additional Notes or Doctor's Observations", tracking=True
     )
     action = fields.Many2many("clinic.action", string="Action")
     display = fields.Char(string="Display", compute="_display", store=True)
     equipment = fields.Many2many("clinic.equipment", string="Equipment & Supply")
+    equipment_line_ids = fields.One2many(
+        "equipment.usage", "inspection_id", string="Equipment Lines"
+    )
     action_cost = fields.Float(string="Action Cost", compute="_compute_action_cost")
     equipment_cost = fields.Float(
         string="Supply Cost", compute="_compute_equipment_cost"
@@ -64,11 +70,22 @@ class DoctorInspection(models.Model):
             action_cost = sum(check.action.mapped("cost"))
             check.action_cost = action_cost
 
-    @api.depends("equipment.cost")
+    @api.depends("equipment", "equipment_line_ids.quantity")
     def _compute_equipment_cost(self):
-        for check in self:
-            equipment_cost = sum(check.equipment.mapped("cost"))
-            check.equipment_cost = equipment_cost
+        for inspection in self:
+            total_cost = sum(
+                equipment.cost * usage.quantity
+                for usage in inspection.equipment_line_ids
+                for equipment in inspection.equipment
+                if usage.equipment_id == equipment
+            )
+            inspection.equipment_cost = total_cost
+
+    # @api.depends("equipment.cost")
+    # def _compute_equipment_cost(self):
+    #     for check in self:
+    #         equipment_cost = sum(check.equipment.mapped("cost"))
+    #         check.equipment_cost = equipment_cost
 
     @api.depends("action_cost", "equipment_cost")
     def _compute_total_cost(self):

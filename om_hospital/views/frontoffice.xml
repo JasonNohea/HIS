@@ -9,7 +9,7 @@
                     <group name="name">
                         <field name="name" />
                         <field name="room_assigned" />
-                        <field name="order" />
+                        <field name="record" />
                         <field name="description" />
                         <!-- Add other fields as needed -->
                     </group>

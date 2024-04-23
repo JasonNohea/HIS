@@ -10,3 +10,4 @@ om_hospital.access_clinic_rooms,access_clinic_rooms,om_hospital.model_clinic_roo
 om_hospital.access_clinic_action,access_clinic_action,om_hospital.model_clinic_action,base.group_user,1,1,1,1
 om_hospital.access_clinic_equipment,access_clinic_equipment,om_hospital.model_clinic_equipment,base.group_user,1,1,1,1
 om_hospital.access_clinic_frontoffice,access_clinic_frontoffice,om_hospital.model_clinic_frontoffice,base.group_user,1,1,1,1
+om_hospital.access_equipment_usage,access_equipment_usage,om_hospital.model_equipment_usage,base.group_user,1,1,1,1
