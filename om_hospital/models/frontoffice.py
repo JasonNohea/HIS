@@ -15,7 +15,8 @@ class frontoffice(models.Model):
     record = fields.Many2one(
         "doctor.inspection",
         string="Latest Record",
-        domain="[('check_date', '!=', False)]",
+        domain="[('name', '=', name)]",
+        # domain="[('check_date', '!=', False)]",
         default=lambda self: self._default_latest_record,
     )
     description = fields.Text(string="Description")

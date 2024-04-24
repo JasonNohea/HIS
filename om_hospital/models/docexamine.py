@@ -15,6 +15,9 @@ class DoctorInspection(models.Model):
     )
     ref = fields.Char(string="Reference", default=lambda self: _("New"))
     check_date = fields.Date(string="Check Date", default=fields.Date.today)
+    room_assigned = fields.Many2one(
+        comodel_name="clinic.rooms", string="Rooms Assigned", required=True
+    )
     doctor_assigned = fields.Many2one(
         comodel_name="clinic.doctor", string="Doctor Assigned", required=True
     )
@@ -40,8 +43,8 @@ class DoctorInspection(models.Model):
     )
     action = fields.Many2many("clinic.action", string="Action")
     display = fields.Char(string="Display", compute="_display", store=True)
-    equipment = fields.Many2many("clinic.equipment", string="Equipment & Supply")
-    equipment_line_ids = fields.One2many(
+    # equipment = fields.Many2many("clinic.equipment", string="Equipment & Supply")
+    equipment_usage_ids = fields.One2many(
         "equipment.usage", "inspection_id", string="Equipment Lines"
     )
     action_cost = fields.Float(string="Action Cost", compute="_compute_action_cost")
@@ -70,14 +73,11 @@ class DoctorInspection(models.Model):
             action_cost = sum(check.action.mapped("cost"))
             check.action_cost = action_cost
 
-    @api.depends("equipment", "equipment_line_ids.quantity")
+    @api.depends("equipment_usage_ids.total_cost")
     def _compute_equipment_cost(self):
         for inspection in self:
             total_cost = sum(
-                equipment.cost * usage.quantity
-                for usage in inspection.equipment_line_ids
-                for equipment in inspection.equipment
-                if usage.equipment_id == equipment
+                usage.total_cost for usage in inspection.equipment_usage_ids
             )
             inspection.equipment_cost = total_cost
 
@@ -99,3 +99,9 @@ class DoctorInspection(models.Model):
             vals["ref"] = self.env["ir.sequence"].next_by_code("doctor.inspection")
             # vals["gender"] = "female"
         return super(DoctorInspection, self).create(vals_list)
+
+    @api.model
+    def _update_equipment_stock(self, usage_record):
+        equipment = usage_record.name
+        equipment_stock = equipment.stock - usage_record.quantity
+        equipment.write({"stock": equipment_stock})
