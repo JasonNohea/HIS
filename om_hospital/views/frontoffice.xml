@@ -11,14 +11,38 @@
                             <field name="record" readonly="1" />
                         </h1>
                     </div>
-                    <group name="name">
-                        <field name="name" />
-                        <field name="room_assigned" />
-                        <field name="record" />
-                        <field name="description" />
+                    <group string="Record Information">
+                        <group>
+                            <field name="name" />
+                            <field name="premed" />
+                            <field name="record" />
+                            <field name="gender" />
+                            <field name="bloodtype" />
+                        </group>
+                        <group>
+                            <field name="date_of_birth" />
+                            <field name="daycount" />
+                            <field name="monthcount" />
+                            <field name="yearcount" />
+                        </group>
+
                         <!-- Add other fields as needed -->
                     </group>
-
+                    <group string="Pre Medication">
+                        <field name="weight" />
+                        <field name="height" />
+                        <field name="blood_pressure" />
+                        <field name="spo2" widget="percentage" />
+                        <field name="temperature" />
+                    </group>
+                    <group string="Doctor Inspection">
+                        <field name="room_assigned" />
+                        <field name="doctor_assigned" />
+                        <field name="nurse_assigned" />
+                        <field name="main_complaint" />
+                        <field name="interim_diagnosis" />
+                        <field name="description" />
+                    </group>
                 </sheet>
 
                 <div class="oe_chatter">

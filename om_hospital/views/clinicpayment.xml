@@ -22,36 +22,6 @@
         </field>
     </record>
 
-    <record id="view_hospital_clinic_service_kanban" model="ir.ui.view">
-        <field name="name">hospital.clinic.payment.kanban</field>
-        <field name="model">clinic.payment</field>
-        <field name="arch" type="xml">
-            <kanban>
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click">
-                            <div class="oe_kanban_image">
-                                <field name="name" widget="image"
-                                    options="{'widget': 'image', 'class': 'oe_avatar'}" />
-                            </div>
-                            <div class="oe_kanban_details">
-                                <strong>
-                                    <field name="name" />
-                                </strong>
-                                <div class="oe_kanban_content">
-                                    <field name="description" />
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-                <field name="name" />
-                <field name="description" />
-                <field name="status" />
-            </kanban>
-        </field>
-    </record>
-
     <record id="view_hospital_clinic_service_tree" model="ir.ui.view">
         <field name="name">hospital.clinic.payment.tree</field>
         <field name="model">clinic.payment</field>
@@ -68,7 +38,7 @@
         <field name="name">Clinic Payment</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">clinic.payment</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">tree,form</field>
     </record>
 
     <menuitem id="menu_payment"

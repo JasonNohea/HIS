@@ -7,10 +7,12 @@ class MedicalCheck(models.Model):
     _name = "medical.check"
     _inherit = ["mail.thread"]
     _description = "Medical Checkup"
+    _rec_name = "ref"
 
     name = fields.Many2one(
         comodel_name="hospital.patient", string="Patient", required=True
     )
+    ref = fields.Char(string="Reference", default=lambda self: _("New"))
     # name = fields.Char(
     #     string="Patient", tracking=True, compute="_compute_capitalized_name", store=True
     # )
@@ -27,6 +29,14 @@ class MedicalCheck(models.Model):
         tracking=True,
     )
     temperature = fields.Float(string="Temperature (°C)")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Modify the values in each dictionary
+        for vals in vals_list:
+            vals["ref"] = self.env["ir.sequence"].next_by_code("patient.premed")
+            # vals["gender"] = "female"
+        return super(MedicalCheck, self).create(vals_list)
 
     # @api.depends("patient_id.name")
     # def _compute_capitalized_name(self):

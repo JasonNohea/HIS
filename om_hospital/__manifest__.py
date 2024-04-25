@@ -18,7 +18,7 @@
         "views/equipment.xml",
         "views/medicalcheck.xml",
         "views/docinspect.xml",
-        "views/clinicservices.xml",
+        # "views/clinicservices.xml",
         "views/clinicpayment.xml",
         "views/doctor.xml",
         "reports/patient_card.xml",
