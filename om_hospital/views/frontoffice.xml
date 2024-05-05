@@ -14,6 +14,8 @@
                     <group string="Record Information">
                         <group>
                             <field name="name" />
+                            <field name="ref" />
+                            <field name="status" />
                             <field name="premed" />
                             <field name="record" />
                             <field name="gender" />
@@ -29,6 +31,8 @@
                         <!-- Add other fields as needed -->
                     </group>
                     <group string="Pre Medication">
+                        <field name="main_complaint" />
+                        <field name="check_date" />
                         <field name="weight" />
                         <field name="height" />
                         <field name="blood_pressure" />
@@ -39,9 +43,8 @@
                         <field name="room_assigned" />
                         <field name="doctor_assigned" />
                         <field name="nurse_assigned" />
-                        <field name="main_complaint" />
                         <field name="interim_diagnosis" />
-                        <field name="description" />
+                        <field name="prescription" />
                     </group>
                 </sheet>
 
@@ -59,6 +62,9 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
+                <field name="check_date" />
+                <field name="main_complaint" />
+                <field name="status" />
                 <!-- <field name="cost" /> -->
                 <!-- <field name="check_date" /> -->
             </tree>

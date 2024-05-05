@@ -15,21 +15,22 @@ class DoctorInspection(models.Model):
     )
     ref = fields.Char(string="Reference", default=lambda self: _("New"))
     check_date = fields.Date(string="Check Date", default=fields.Date.today)
-    room_assigned = fields.Many2one(
-        comodel_name="clinic.rooms", string="Rooms Assigned", required=True
-    )
-    doctor_assigned = fields.Many2one(
-        comodel_name="clinic.doctor", string="Doctor Assigned", required=True
-    )
-    nurse_assigned = fields.Many2one(
-        comodel_name="clinic.nurse", string="Nurse Assigned", required=True
-    )
-    main_complaint = fields.Char(
-        string="Main Complaint",
-        tracking=True,
-    )
+
+    # room_assigned = fields.Many2one(
+    #     comodel_name="clinic.rooms", string="Rooms Assigned", required=True
+    # )
+
+    # doctor_assigned = fields.Many2one(
+    #     comodel_name="clinic.doctor", string="Doctor Assigned", required=True
+    # )
+
+    # nurse_assigned = fields.Many2one(
+    #     comodel_name="clinic.nurse", string="Nurse Assigned", required=True
+    # )
+
     interim_diagnosis = fields.Char(
-        string="Interim Diagnosis", tracking=True, required=True
+        string="Interim Diagnosis",
+        tracking=True,
     )
     additional_consult = fields.Char(
         string="Additional Referrals or Consultations", tracking=True
@@ -92,15 +93,37 @@ class DoctorInspection(models.Model):
         for check in self:
             check.total_cost = check.action_cost + check.equipment_cost
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        # Modify the values in each dictionary
-        for vals in vals_list:
-            vals["ref"] = self.env["ir.sequence"].next_by_code("doctor.inspection")
-            # vals["gender"] = "female"
-        return super(DoctorInspection, self).create(vals_list)
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     if vals.get("ref", _("New")) == _("New"):
+    #         vals["ref"] = self.env["ir.sequence"].next_by_code(
+    #             "patient.inspection"
+    #         ) or _("New")
+
+    #     record = super(DoctorInspection, self).create(vals)
+
+    #     # Automatically create a record in clinic.frontoffice
+    #     self.env["clinic.frontoffice"].create({"record": record.id})
+
+    #     return record
 
     @api.model
+    def create(self, vals):
+        # Iterate through each dictionary in the list
+        if vals.get("ref", _("New")) == _("New"):
+            vals["ref"] = self.env["ir.sequence"].next_by_code(
+                "patient.inspection"
+            ) or _("New")
+
+        # Create the record for each dictionary
+        record = super(DoctorInspection, self).create(vals)
+
+        # Automatically create a record in clinic.frontoffice
+        self.env["clinic.frontoffice"].create({"record": record.id})
+
+        # Call the super method to create the records
+        return super(DoctorInspection, self).create(vals)
+
     def _update_equipment_stock(self, usage_record):
         equipment = usage_record.name
         equipment_stock = equipment.stock - usage_record.quantity

@@ -9,8 +9,13 @@
                     <group>
                         <!-- Add other fields as needed -->
                         <field name="name" />
-                        <field name="description" />
-                        <field name="status" />
+                        <field name="premed" />
+                        <field name="record" />
+                        <field name="check_date" />
+                        <field name="main_complaint" />
+                        <field name="interim_diagnosis" />
+                        <field name="prescription" />
+                        <field name="inspection_cost" />
                     </group>
                 </sheet>
 
@@ -28,8 +33,9 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
-                <field name="description" />
-                <field name="status" />
+                <field name="interim_diagnosis" />
+                <field name="prescription" />
+                <field name="inspection_cost" />
             </tree>
         </field>
     </record>

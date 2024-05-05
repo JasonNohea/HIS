@@ -22,12 +22,12 @@
             <field name="padding">5</field>
         </record>
 
-        <!-- <record id="sequence_hospital_equipment" model="ir.sequence">
-            <field name="name">equipment</field>
-            <field name="code">clinic.equipment</field>
-            <field name="prefix">EQ</field>
+        <record id="sequence_front_desk" model="ir.sequence">
+            <field name="name">Front Desk</field>
+            <field name="code">clinic.frontdesk</field>
+            <field name="prefix">FD</field>
             <field name="padding">5</field>
-        </record> -->
+        </record>
     </data>
 
 </odoo>

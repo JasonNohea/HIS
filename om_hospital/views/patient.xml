@@ -15,6 +15,7 @@
                     <group string="Personal Information">
                         <group>
                             <field name="name" string="Name" required="1" />
+                            <!-- <field name="status" invisible="0" /> -->
                             <field name="phone" />
                             <!-- <field name="capitalized_name" /> -->
                             <field name="gender" widget="radio" options="{'horizontal': true}" />

@@ -10,10 +10,10 @@
                         <field name="ref" readonly="1" />
                         <field name="name" />
                         <field name="check_date" />
-                        <field name="room_assigned" />
+                        <!-- <field name="room_assigned" />
                         <field name="doctor_assigned" />
-                        <field name="nurse_assigned" />
-                        <field name="main_complaint" />
+                        <field name="nurse_assigned" /> -->
+                        <!-- <field name="main_complaint" /> -->
                         <field name="interim_diagnosis" />
                         <field name="additional_consult" />
                         <!-- <field name="treatment_approach" /> -->
@@ -45,7 +45,7 @@
             <tree>
                 <field name="ref" />
                 <field name="name" />
-                <field name="main_complaint" />
+                <field name="interim_diagnosis" />
                 <!-- <field name="treatment_approach" /> -->
                 <field name="display" />
             </tree>

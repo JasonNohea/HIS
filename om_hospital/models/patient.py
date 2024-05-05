@@ -136,13 +136,21 @@ class HospitalPatient(models.Model):
         string="Relative Phone Number", tracking=True, required=True
     )
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        # Modify the values in each dictionary
-        for vals in vals_list:
-            vals["ref"] = self.env["ir.sequence"].next_by_code("hospital.patient")
-            # vals["gender"] = "female"
-        return super(HospitalPatient, self).create(vals_list)
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     # Modify the values in each dictionary
+    #     for vals in vals_list:
+    #         vals["ref"] = self.env["ir.sequence"].next_by_code("hospital.patient")
+    #         # vals["gender"] = "female"
+    #     return super(HospitalPatient, self).create(vals_list)
+
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get("ref", _("New")) == _("New"):
+    #         vals["ref"] = self.env["ir.sequence"].next_by_code("hospital.patient") or _(
+    #             "New"
+    #         )
+    #     return super(HospitalPatient, self).create(vals)
 
     @api.constrains("is_child", "age")
     def _check_child_age(self):
@@ -168,6 +176,64 @@ class HospitalPatient(models.Model):
                 record.yearcount = str(delta.years) + " years"
                 record.monthcount = str(delta.months) + " months"
                 record.daycount = str(delta.days) + " days"
+
+    @api.model
+    def create(self, vals):
+        # Generate the reference code if not provided
+        if vals.get("ref", _("New")) == _("New"):
+            vals["ref"] = self.env["ir.sequence"].next_by_code("hospital.patient") or _(
+                "New"
+            )
+        # if vals.get("status") == "notcheck":
+        #     vals["status"] = "frontdesk"
+
+        # Create the patient record
+        patient = super(HospitalPatient, self).create(vals)
+
+        # Create a record in the medical.check model if it doesn't exist
+        medical_check_record = self.env["medical.check"].search(
+            [("name", "=", patient.id)]
+        )
+        if not medical_check_record:
+            self.env["medical.check"].create({"name": patient.id})
+
+        # Update the existing medical check record if it exists
+        else:
+            medical_check_record.write({"name": patient.id})
+
+        # self.env["doctor.inspection"].create({"name": patient.id})
+
+        self.env["clinic.payment"].create({"name": patient.id})
+
+        return patient
+
+    # def create(self, vals):
+    #     # Set the default status value when a new record is created
+    #     if vals.get("status") == "notcheck":
+    #         vals["status"] = "frontdesk"
+    #     return super(HospitalPatient, self).create(vals)
+
+    # def write(self, vals):
+    #     # Update the status value when the record is updated
+    #     if vals.get("status") == "notcheck":
+    #         vals["status"] = "frontdesk"
+    #     return super(HospitalPatient, self).write(vals)
+
+    # @api.model
+    # def create(self, vals):
+    #     # Call the super method to create the record in the first model
+    #     res = super(HospitalPatient, self).create(vals)
+
+    #     # Create a record in the second model (premedication model)
+    #     # Replace 'medical.check' with the actual model name of the second form
+    #     self.env["medical.check"].create(
+    #         {
+    #             "name": res.id,  # Pass the ID of the newly created patient record
+    #             # Add other fields as needed
+    #         }
+    #     )
+
+    #     return res
 
     # @api.depends("name")
     # def _compute_capitalized_name(self):
