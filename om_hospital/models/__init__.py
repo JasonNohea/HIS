@@ -6,7 +6,7 @@ from . import clinicpayment
 from . import doctor
 from . import nurse
 from . import rooms
-from . import action
+from . import clinicaction
 from . import equipment
 from . import frontoffice
 from . import equsage

@@ -38,16 +38,16 @@
     </record>
 
 
-    <record id="action_hospital_action" model="ir.actions.act_window">
+    <record id="action_clinic_action" model="ir.actions.act_window">
         <field name="name">Clinic Action</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">clinic.action</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_action"
+    <menuitem id="menu_clinic_action"
         name="Action"
         parent="menu_hospital_master"
-        action="action_hospital_action"
+        action="action_clinic_action"
         sequence="10" />
 </odoo>

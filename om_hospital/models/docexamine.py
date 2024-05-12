@@ -109,22 +109,70 @@ class DoctorInspection(models.Model):
 
     @api.model
     def create(self, vals):
-        # Iterate through each dictionary in the list
+        # Generate the reference code if not provided
         if vals.get("ref", _("New")) == _("New"):
             vals["ref"] = self.env["ir.sequence"].next_by_code(
                 "patient.inspection"
             ) or _("New")
 
-        # Create the record for each dictionary
+        # Create the DoctorInspection record
         record = super(DoctorInspection, self).create(vals)
 
-        # Automatically create a record in clinic.frontoffice
-        self.env["clinic.frontoffice"].create({"record": record.id})
+        # Update front office records
+        self.update_foffice(vals)
 
-        # Call the super method to create the records
-        return super(DoctorInspection, self).create(vals)
+        return record
+
+        # Create the DoctorInspection record
+        # record = super(DoctorInspection, self).create(vals)
+
+        # # Search for existing record in clinic.frontoffice
+        # frontoffice_record = self.env["clinic.frontoffice"].search(
+        #     [("name", "=", record.name.id)]
+        # )
+
+        # if frontoffice_record:
+        #     # Update existing record
+        #     frontoffice_record.write({"record": [(4, record.id)]})
+        # else:
+        #     # Create new record
+        #     self.env["clinic.frontoffice"].create(
+        #         {
+        #             "name": record.name.id,
+        #             "record": [
+        #                 (4, record.id)
+        #             ],  # This adds the DoctorInspection record to the Many2many field
+        #             "status": "docinspect",
+        #         }
+        #     )
+
+        # # Create a record in clinic.payment
+        # self.env["clinic.payment"].create({"name": record.name.id})
+
+        # return record
+
+    # # Create the record for each dictionary
+    # record = super(DoctorInspection, self).create(vals)
+
+    # # Automatically create a record in clinic.frontoffice
+    # self.env["clinic.frontoffice"].create({"record": record.id})
+
+    # Call the super method to create the records
+    # return super(DoctorInspection, self).create(vals)
 
     def _update_equipment_stock(self, usage_record):
         equipment = usage_record.name
         equipment_stock = equipment.stock - usage_record.quantity
         equipment.write({"stock": equipment_stock})
+
+    # def create(self, vals):
+    #     record = super(DoctorInspection, self).create(vals)
+    #     # Call method to update records in Form A
+    #     self.update_foffice(vals)
+    #     return record
+
+    def update_foffice(self, vals):
+        foffice_records = self.env["clinic.frontoffice"].search(
+            [("name", "=", vals.get("name"))]
+        )
+        foffice_records._compute_record()

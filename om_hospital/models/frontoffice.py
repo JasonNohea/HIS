@@ -31,8 +31,8 @@ class frontoffice(models.Model):
         [
             # ("notcheck", "Awaiting Check-in"),
             ("frontdesk", "Checking in at Front Desk"),
-            ("premed", "Undergoing Pre-Medical Check"),
-            ("docinspect", "Currently with Doctor for Inspection"),
+            ("premed", "Ready for Premedical Check"),
+            ("docinspect", "Ready for Doctor Inspection"),
             ("payment", "In Payment Processing"),
             ("done", "Payment Process Completed"),
         ],
@@ -149,13 +149,60 @@ class frontoffice(models.Model):
         string="Prescription", tracking=True, related="record.prescription"
     )
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        # Modify the values in each dictionary
-        for vals in vals_list:
-            vals["ref"] = self.env["ir.sequence"].next_by_code("clinic.frontdesk")
-            # vals["gender"] = "female"
-        return super(frontoffice, self).create(vals_list)
+    # @api.depends("name")
+    # def _compute_record(self):
+    #     for record in self:
+    #         docinspect_record = self.env["doctor.inspection"].search(
+    #             [("name", "=", record.name)], limit=1
+    #         )
+    #         if docinspect_record:
+    #             record.record = docinspect_record.ref
+    #         else:
+    #             record.record = False
+
+    # def write(self, vals):
+    #     # Check if the record is being saved (not created)
+    #     if vals:
+    #         vals["status"] = "premed"  # Set status to 'b' when record is saved
+    #     return super(frontoffice, self).write(vals)
+
+    def write(self, vals):
+        # Check if the record is being saved (not created)
+        if vals:
+            vals["status"] = "premed"  # Set status to 'b' when record is saved
+        return super(frontoffice, self).write(vals)
+
+    def _update_status_docinspect(self):
+        for record in self:
+            record.status = "docinspect"  # Set status to 'b' when Form B is saved
+
+    @api.depends("name")
+    def _compute_record(self):
+        for record in self:
+            docinspectrecord = self.env["doctor.inspection"].search(
+                [("name", "=", record.name.id)], limit=1
+            )
+            if docinspectrecord:
+                record.record = docinspectrecord.id
+            else:
+                record.record = False
+
+    @api.model
+    def create(self, vals):
+        if vals.get("ref", _("New")) == _("New"):
+            # Generate a unique reference code using the sequence
+            vals["ref"] = self.env["ir.sequence"].next_by_code("clinic.frontdesk") or _(
+                "New"
+            )
+        return super(frontoffice, self).create(vals)
+
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     # Modify the values in each dictionary
+    #     for vals in vals_list:
+    #         vals["ref"] = self.env["ir.sequence"].next_by_code("clinic.frontdesk")
+    #         # vals["gender"] = "female"
+    #     return super(frontoffice, self).create(vals_list)
 
     # description = fields.Text(string="Description")
 

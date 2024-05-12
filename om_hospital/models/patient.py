@@ -123,7 +123,7 @@ class HospitalPatient(models.Model):
         tracking=True,
     )
 
-    family_name = fields.Char(string="Relative Name", required=True, tracking=True)
+    family_name = fields.Char(string="Relative Name", tracking=True)
     family_gender = fields.Selection(
         [("male", "Male"), ("female", "Female"), ("others", "Others")],
         string="Relative Gender",
@@ -132,9 +132,7 @@ class HospitalPatient(models.Model):
     family_relation = fields.Char(
         string="Relative Relation", tracking=True
     )  # required=True,
-    family_phone = fields.Char(
-        string="Relative Phone Number", tracking=True, required=True
-    )
+    family_phone = fields.Char(string="Relative Phone Number", tracking=True)
 
     # @api.model_create_multi
     # def create(self, vals_list):
@@ -190,6 +188,10 @@ class HospitalPatient(models.Model):
         # Create the patient record
         patient = super(HospitalPatient, self).create(vals)
 
+        # self.env["clinic.frontoffice"].create(
+        #     {"name": patient.id, "status": "frontdesk"}
+        # )
+
         # Create a record in the medical.check model if it doesn't exist
         medical_check_record = self.env["medical.check"].search(
             [("name", "=", patient.id)]
@@ -203,7 +205,7 @@ class HospitalPatient(models.Model):
 
         # self.env["doctor.inspection"].create({"name": patient.id})
 
-        self.env["clinic.payment"].create({"name": patient.id})
+        # self.env["clinic.payment"].create({"name": patient.id})
 
         return patient
 

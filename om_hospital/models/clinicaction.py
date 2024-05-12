@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 
 
-class nurse(models.Model):
+class ClinicAction(models.Model):
     _name = "clinic.action"
     _inherit = ["mail.thread"]
     _description = "Clinic Action"

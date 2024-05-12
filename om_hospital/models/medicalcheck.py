@@ -45,6 +45,11 @@ class MedicalCheck(models.Model):
     #         # vals["gender"] = "female"
     #     return super(MedicalCheck, self).create(vals_list)
 
+    def write(self, vals):
+        # Trigger status update in Form A when Form B is saved
+        self.env["clinic.frontoffice"].search([])._update_status_docinspect()
+        return super(MedicalCheck, self).write(vals)
+
     @api.model
     def create(self, vals):
         if vals.get("ref", _("New")) == _("New"):
@@ -56,10 +61,20 @@ class MedicalCheck(models.Model):
 
         # Automatically create a premed in clinic.frontoffice
         self.env["clinic.frontoffice"].create(
-            {"name": premed.name.id, "premed": premed.id, "status": "premed"}
+            {
+                "name": premed.name.id,
+                "premed": premed.id,
+                #  "status": "premed"
+            }
         )
 
         self.env["doctor.inspection"].create({"name": premed.name.id})
+        self.env["clinic.payment"].create(
+            {
+                "name": premed.name.id,
+                "premed": premed.id,
+            }
+        )
 
         return premed
 

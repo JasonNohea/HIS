@@ -27,6 +27,6 @@ class nurse(models.Model):
             ("unavailable", "Unavailable"),
         ],
         string="Status",
-        default="standby",
+        default="vacant",
         required=True,
     )

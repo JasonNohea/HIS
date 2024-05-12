@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 
 # creating databased
-class ClinicServices(models.Model):
+class ClinicPayment(models.Model):
     _name = "clinic.payment"
     _inherit = ["mail.thread"]
     _description = "Clinic Payment"

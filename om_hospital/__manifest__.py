@@ -11,7 +11,7 @@
         "views/menu.xml",
         "views/patient.xml",
         "views/rooms.xml",
-        "views/action.xml",
+        "views/clinicaction.xml",
         "views/nurse.xml",
         "views/equipmentusage.xml",
         "views/frontoffice.xml",
