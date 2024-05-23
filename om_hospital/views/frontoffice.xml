@@ -18,6 +18,7 @@
                             <field name="status" />
                             <field name="premed" />
                             <field name="record" />
+                            <field name="payment" />
                             <field name="gender" />
                             <field name="bloodtype" />
                         </group>

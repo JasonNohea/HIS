@@ -188,9 +188,9 @@ class HospitalPatient(models.Model):
         # Create the patient record
         patient = super(HospitalPatient, self).create(vals)
 
-        # self.env["clinic.frontoffice"].create(
-        #     {"name": patient.id, "status": "frontdesk"}
-        # )
+        self.env["clinic.frontoffice"].create(
+            {"name": patient.id, "status": "frontdesk"}
+        )
 
         # Create a record in the medical.check model if it doesn't exist
         medical_check_record = self.env["medical.check"].search(
@@ -207,35 +207,32 @@ class HospitalPatient(models.Model):
 
         # self.env["clinic.payment"].create({"name": patient.id})
 
+        # Create a record in the medical.check model if it doesn't exist
+        doc_inspect_record = self.env["doctor.inspection"].search(
+            [("name", "=", patient.id)]
+        )
+        if not doc_inspect_record:
+            self.env["doctor.inspection"].create({"name": patient.id})
+
+        # Update the existing medical check record if it exists
+        else:
+            doc_inspect_record.write({"name": patient.id})
+
+        clinic_payment_record = self.env["clinic.payment"].search(
+            [("name", "=", patient.id)]
+        )
+        if not clinic_payment_record:
+            self.env["clinic.payment"].create({"name": patient.id})
+
+        # Update the existing medical check record if it exists
+        else:
+            clinic_payment_record.write({"name": patient.id})
+
+            # self.env["doctor.inspection"].create({"name": patient.id})
+
+            # self.env["clinic.payment"].create({"name": patient.id})
+
         return patient
-
-    # def create(self, vals):
-    #     # Set the default status value when a new record is created
-    #     if vals.get("status") == "notcheck":
-    #         vals["status"] = "frontdesk"
-    #     return super(HospitalPatient, self).create(vals)
-
-    # def write(self, vals):
-    #     # Update the status value when the record is updated
-    #     if vals.get("status") == "notcheck":
-    #         vals["status"] = "frontdesk"
-    #     return super(HospitalPatient, self).write(vals)
-
-    # @api.model
-    # def create(self, vals):
-    #     # Call the super method to create the record in the first model
-    #     res = super(HospitalPatient, self).create(vals)
-
-    #     # Create a record in the second model (premedication model)
-    #     # Replace 'medical.check' with the actual model name of the second form
-    #     self.env["medical.check"].create(
-    #         {
-    #             "name": res.id,  # Pass the ID of the newly created patient record
-    #             # Add other fields as needed
-    #         }
-    #     )
-
-    #     return res
 
     # @api.depends("name")
     # def _compute_capitalized_name(self):

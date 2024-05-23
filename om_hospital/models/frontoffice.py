@@ -5,8 +5,9 @@ class frontoffice(models.Model):
     _name = "clinic.frontoffice"
     _inherit = ["mail.thread"]
     _description = "Clinic Front Office"
+    _rec_name = "ref"
 
-    name = name = fields.Many2one(
+    name = fields.Many2one(
         comodel_name="hospital.patient",
         string="Patient",
     )
@@ -22,6 +23,14 @@ class frontoffice(models.Model):
     record = fields.Many2one(
         comodel_name="doctor.inspection",
         string="Inspection Record",
+        domain="[('name', '=', name)]",
+        # domain="[('check_date', '!=', False)]",
+        # default=lambda self: self._default_latest_record,
+    )
+
+    payment = fields.Many2one(
+        comodel_name="clinic.payment",
+        string="Payment",
         domain="[('name', '=', name)]",
         # domain="[('check_date', '!=', False)]",
         # default=lambda self: self._default_latest_record,
@@ -116,24 +125,6 @@ class frontoffice(models.Model):
         string="Nurse Assigned",
     )
 
-    # room_assigned = fields.Many2one(
-    #     comodel_name="clinic.rooms",
-    #     string="Rooms Assigned",
-    #     related="record.room_assigned",
-    # )
-
-    # doctor_assigned = fields.Many2one(
-    #     comodel_name="clinic.doctor",
-    #     string="Doctor Assigned",
-    #     related="record.doctor_assigned",
-    # )
-
-    # nurse_assigned = fields.Many2one(
-    #     comodel_name="clinic.nurse",
-    #     string="Nurse Assigned",
-    #     related="record.nurse_assigned",
-    # )
-
     main_complaint = fields.Char(
         string="Main Complaint",
         tracking=True,
@@ -166,15 +157,17 @@ class frontoffice(models.Model):
     #         vals["status"] = "premed"  # Set status to 'b' when record is saved
     #     return super(frontoffice, self).write(vals)
 
-    def write(self, vals):
-        # Check if the record is being saved (not created)
-        if vals:
-            vals["status"] = "premed"  # Set status to 'b' when record is saved
-        return super(frontoffice, self).write(vals)
+    # def write(self, vals):
+    #     # Check if the record is being saved (not created)
+    #     if vals:
+    #         vals["status"] = "premed"  # Set status to 'premed' when record is saved
+    #     return super(frontoffice, self).write(vals)
 
-    def _update_status_docinspect(self):
-        for record in self:
-            record.status = "docinspect"  # Set status to 'b' when Form B is saved
+    # def _update_status_docinspect(self):
+    #     for record in self:
+    #         record.status = (
+    #             "docinspect"  # Set status to 'docinspect' when Form B is saved
+    #         )
 
     @api.depends("name")
     def _compute_record(self):
@@ -187,14 +180,48 @@ class frontoffice(models.Model):
             else:
                 record.record = False
 
+    def _compute_premed(self):
+        for premed in self:
+            premedical = self.env["medical.check"].search(
+                [("name", "=", premed.name.id)], limit=1
+            )
+            if premedical:
+                premed.premed = premedical.id
+            else:
+                premed.premed = False
+
+    def _compute_payment(self):
+        for payment in self:
+            clinic_payment = self.env["clinic.payment"].search(
+                [("name", "=", payment.name.id)], limit=1
+            )
+            if clinic_payment:
+                payment.payment = clinic_payment.id
+            else:
+                payment.payment = False
+
     @api.model
     def create(self, vals):
         if vals.get("ref", _("New")) == _("New"):
-            # Generate a unique reference code using the sequence
             vals["ref"] = self.env["ir.sequence"].next_by_code("clinic.frontdesk") or _(
                 "New"
             )
-        return super(frontoffice, self).create(vals)
+
+        # Create the front office record
+        foffice = super(frontoffice, self).create(vals)
+
+        # Update the corresponding premed record with the front office reference
+        premed = self.env["medical.check"].search(
+            [("name", "=", foffice.name.id)], limit=1
+        )
+        if premed:
+            premed.write({"frontdesk": foffice.id})
+
+        return foffice
+
+    # def update_ref_premed(self, vals):
+    #     premed = self.env["medical.check"].search([("name", "=", vals.get("name"))])
+    #     premed._get_frontoffice()
 
     # @api.model_create_multi
     # def create(self, vals_list):

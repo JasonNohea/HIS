@@ -11,6 +11,7 @@
                         <field name="name" />
                         <field name="premed" />
                         <field name="record" />
+                        <field name="ref" />
                         <field name="check_date" />
                         <field name="main_complaint" />
                         <field name="interim_diagnosis" />

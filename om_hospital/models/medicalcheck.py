@@ -12,11 +12,12 @@ class MedicalCheck(models.Model):
     name = fields.Many2one(
         comodel_name="hospital.patient", string="Patient", required=True
     )
-    status = fields.Many2one(comodel_name="clinic.frontoffice", string="status")
-    ref = fields.Char(string="Reference", default=lambda self: _("New"))
     frontdesk = fields.Many2one(
         comodel_name="clinic.frontoffice", string="Front Desk Number"
     )
+    status = fields.Selection(related="frontdesk.status", string="status")
+    ref = fields.Char(string="Reference", default=lambda self: _("New"))
+
     # name = fields.Char(
     #     string="Patient", tracking=True, compute="_compute_capitalized_name", store=True
     # )
@@ -45,10 +46,26 @@ class MedicalCheck(models.Model):
     #         # vals["gender"] = "female"
     #     return super(MedicalCheck, self).create(vals_list)
 
-    def write(self, vals):
-        # Trigger status update in Form A when Form B is saved
-        self.env["clinic.frontoffice"].search([])._update_status_docinspect()
-        return super(MedicalCheck, self).write(vals)
+    # def write(self, vals):
+    #     res = super(MedicalCheck, self).write(vals)
+    #     if vals:
+    #         frontoffice_record = self.env["clinic.frontoffice"].search(
+    #             [("premed", "=", self.id)], limit=1
+    #         )
+    #         if frontoffice_record:
+    #             frontoffice_record.write({"status": "docinspect"})
+    # return res
+
+    # @api.depends("name")
+    # def _get_frontoffice(self):
+    #     for foffice in self:
+    #         frontoffice = self.env["clinic.frontoffice"].search(
+    #             [("name", "=", foffice.name.id)], limit=1
+    #         )
+    #         if frontoffice:
+    #             foffice.frontdesk = frontoffice.id
+    #         else:
+    #             foffice.frontdesk = False
 
     @api.model
     def create(self, vals):
@@ -59,22 +76,20 @@ class MedicalCheck(models.Model):
 
         premed = super(MedicalCheck, self).create(vals)
 
-        # Automatically create a premed in clinic.frontoffice
-        self.env["clinic.frontoffice"].create(
-            {
-                "name": premed.name.id,
-                "premed": premed.id,
-                #  "status": "premed"
-            }
-        )
+        self.update_foffice(vals)
 
-        self.env["doctor.inspection"].create({"name": premed.name.id})
-        self.env["clinic.payment"].create(
-            {
-                "name": premed.name.id,
-                "premed": premed.id,
-            }
-        )
+        # Automatically create a premed in clinic.frontoffice
+        # self.env["clinic.frontoffice"].create(
+        #     {"name": premed.name.id, "premed": premed.id, "status": "frontdesk"}
+        # )
+
+        # self.env["doctor.inspection"].create({"name": premed.name.id})
+        # self.env["clinic.payment"].create(
+        #     {
+        #         "name": premed.name.id,
+        #         "premed": premed.id,
+        #     }
+        # )
 
         return premed
 
@@ -85,3 +100,9 @@ class MedicalCheck(models.Model):
     #             rec.name = rec.patient_id.name.upper()
     #         else:
     #             rec.name = ""
+
+    def update_foffice(self, vals):
+        foffice_records = self.env["clinic.frontoffice"].search(
+            [("name", "=", vals.get("name"))]
+        )
+        foffice_records._compute_premed()

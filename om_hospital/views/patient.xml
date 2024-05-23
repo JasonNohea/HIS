@@ -43,10 +43,10 @@
                     </group>
 
                     <group string="Contactable family members">
-                        <field name="family_name" required="1" />
+                        <field name="family_name" />
                         <field name="family_gender" widget="radio" options="{'horizontal': true}" />
                         <field name="family_relation" />
-                        <field name="family_phone" required="1" />
+                        <field name="family_phone" />
                     </group>
 
                 </sheet>

@@ -123,6 +123,15 @@ class DoctorInspection(models.Model):
 
         return record
 
+    def write(self, vals):
+        res = super(DoctorInspection, self).write(vals)
+        if vals:
+            frontoffice_record = self.env["clinic.frontoffice"].search(
+                [("record", "=", self.id)], limit=1
+            )
+            if frontoffice_record:
+                frontoffice_record.write({"status": "payment"})
+        return res
         # Create the DoctorInspection record
         # record = super(DoctorInspection, self).create(vals)
 
