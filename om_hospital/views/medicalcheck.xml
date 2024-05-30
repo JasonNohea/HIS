@@ -42,14 +42,30 @@
         </field>
     </record>
 
+    <record id="view_hospital_medcheck_search" model="ir.ui.view">
+        <field name="name">hospital.medical.check.search</field>
+        <field name="model">medical.check</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"
+                    filter_domain="['|', ('name', 'ilike', self),('ref', 'ilike', self)]" />
+                <field name="status" />
+                <field name="check_date" />
+                <field name="weight" />
+                <filter name="filter_status" string="PreMedical"
+                    domain="[('status', '=', 'premed')]" />
+            </search>
+        </field>
+    </record>
+
     <!-- Action -->
     <record id="action_hospital_medcheck" model="ir.actions.act_window">
         <field name="name">Pre Medication</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.check</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_hospital_medcheck_tree" />
-        <field name="domain">[('status', '=', 'premed')]</field>
+        <field name="view_id" ref="om_hospital.view_hospital_medcheck_search" />
+        <!-- <field name="domain">[('status', '=', 'premed')]</field>  -->
     </record>
 
     <!-- Menu Item -->

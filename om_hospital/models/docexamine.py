@@ -14,19 +14,13 @@ class DoctorInspection(models.Model):
         comodel_name="hospital.patient", string="Patient", required=True
     )
     ref = fields.Char(string="Reference", default=lambda self: _("New"))
+    frontdesk = fields.Many2one(
+        comodel_name="clinic.frontoffice",
+        string="Front Desk Number",
+        domain="[('name', '=', name)]",
+    )
+    status = fields.Selection(related="frontdesk.status", string="status")
     check_date = fields.Date(string="Check Date", default=fields.Date.today)
-
-    # room_assigned = fields.Many2one(
-    #     comodel_name="clinic.rooms", string="Rooms Assigned", required=True
-    # )
-
-    # doctor_assigned = fields.Many2one(
-    #     comodel_name="clinic.doctor", string="Doctor Assigned", required=True
-    # )
-
-    # nurse_assigned = fields.Many2one(
-    #     comodel_name="clinic.nurse", string="Nurse Assigned", required=True
-    # )
 
     interim_diagnosis = fields.Char(
         string="Interim Diagnosis",
@@ -35,16 +29,12 @@ class DoctorInspection(models.Model):
     additional_consult = fields.Char(
         string="Additional Referrals or Consultations", tracking=True
     )
-    # treatment_approach = fields.Char(
-    #     string="Treatment Approach", tracking=True, required=True
-    # )
     prescription = fields.Text(string="Prescription", tracking=True)
     additional_note = fields.Text(
         string="Additional Notes or Doctor's Observations", tracking=True
     )
     action = fields.Many2many("clinic.action", string="Action")
     display = fields.Char(string="Display", compute="_display", store=True)
-    # equipment = fields.Many2many("clinic.equipment", string="Equipment & Supply")
     equipment_usage_ids = fields.One2many(
         "equipment.usage", "inspection_id", string="Equipment Lines"
     )
@@ -61,6 +51,13 @@ class DoctorInspection(models.Model):
     #             rec.name = rec.patient_id.name.upper()
     #         else:
     #             rec.name = ""
+
+    def write(self, vals):
+        result = super(DoctorInspection, self).write(vals)
+        if self.frontdesk and self.frontdesk.status != "done":
+            # Change status to 'c' in related Form A if not already 'd'
+            self.frontdesk.status = "payment"
+        return result
 
     @api.depends("action")
     def _display(self):
@@ -109,65 +106,20 @@ class DoctorInspection(models.Model):
 
     @api.model
     def create(self, vals):
-        # Generate the reference code if not provided
         if vals.get("ref", _("New")) == _("New"):
             vals["ref"] = self.env["ir.sequence"].next_by_code(
                 "patient.inspection"
             ) or _("New")
 
-        # Create the DoctorInspection record
         record = super(DoctorInspection, self).create(vals)
-
-        # Update front office records
         self.update_foffice(vals)
-
         return record
 
-    def write(self, vals):
-        res = super(DoctorInspection, self).write(vals)
-        if vals:
-            frontoffice_record = self.env["clinic.frontoffice"].search(
-                [("record", "=", self.id)], limit=1
-            )
-            if frontoffice_record:
-                frontoffice_record.write({"status": "payment"})
-        return res
-        # Create the DoctorInspection record
-        # record = super(DoctorInspection, self).create(vals)
-
-        # # Search for existing record in clinic.frontoffice
-        # frontoffice_record = self.env["clinic.frontoffice"].search(
-        #     [("name", "=", record.name.id)]
-        # )
-
-        # if frontoffice_record:
-        #     # Update existing record
-        #     frontoffice_record.write({"record": [(4, record.id)]})
-        # else:
-        #     # Create new record
-        #     self.env["clinic.frontoffice"].create(
-        #         {
-        #             "name": record.name.id,
-        #             "record": [
-        #                 (4, record.id)
-        #             ],  # This adds the DoctorInspection record to the Many2many field
-        #             "status": "docinspect",
-        #         }
-        #     )
-
-        # # Create a record in clinic.payment
-        # self.env["clinic.payment"].create({"name": record.name.id})
-
-        # return record
-
-    # # Create the record for each dictionary
-    # record = super(DoctorInspection, self).create(vals)
-
-    # # Automatically create a record in clinic.frontoffice
-    # self.env["clinic.frontoffice"].create({"record": record.id})
-
-    # Call the super method to create the records
-    # return super(DoctorInspection, self).create(vals)
+    def update_foffice(self, vals):
+        foffice_records = self.env["clinic.frontoffice"].search(
+            [("name", "=", vals.get("name"))]
+        )
+        foffice_records._compute_related_fields()
 
     def _update_equipment_stock(self, usage_record):
         equipment = usage_record.name
@@ -179,9 +131,3 @@ class DoctorInspection(models.Model):
     #     # Call method to update records in Form A
     #     self.update_foffice(vals)
     #     return record
-
-    def update_foffice(self, vals):
-        foffice_records = self.env["clinic.frontoffice"].search(
-            [("name", "=", vals.get("name"))]
-        )
-        foffice_records._compute_record()

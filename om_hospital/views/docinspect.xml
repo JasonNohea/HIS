@@ -9,18 +9,13 @@
                     <group>
                         <field name="ref" readonly="1" />
                         <field name="name" />
+                        <field name="frontdesk" />
                         <field name="check_date" />
-                        <!-- <field name="room_assigned" />
-                        <field name="doctor_assigned" />
-                        <field name="nurse_assigned" /> -->
-                        <!-- <field name="main_complaint" /> -->
                         <field name="interim_diagnosis" />
                         <field name="additional_consult" />
-                        <!-- <field name="treatment_approach" /> -->
                         <field name="prescription" />
                         <field name="additional_note" />
                         <field name="action" widget="many2many_checkboxes" />
-                        <!-- <field name="equipment" /> -->
                         <field name="equipment_usage_ids" />
                         <field name="action_cost" />
                         <field name="equipment_cost" />
@@ -43,8 +38,8 @@
         <field name="model">doctor.inspection</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="ref" />
                 <field name="name" />
+                <field name="status" />
                 <field name="interim_diagnosis" />
                 <!-- <field name="treatment_approach" /> -->
                 <field name="display" />
@@ -52,12 +47,28 @@
         </field>
     </record>
 
+    <record id="view_hospital_doc_inspect_search" model="ir.ui.view">
+        <field name="name">hospital.doctor.inspect.search</field>
+        <field name="model">doctor.inspection</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="status" />
+                <field name="interim_diagnosis" />
+                <!-- <field name="treatment_approach" /> -->
+                <field name="display" />
+                <filter name="filter_status" string="DocInspect"
+                    domain="[('status', '=', 'docinspect')]" />
+            </search>
+        </field>
+    </record>
 
     <record id="action_hospital_docinspect" model="ir.actions.act_window">
         <field name="name">Doctor Inspection</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">doctor.inspection</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="om_hospital.view_hospital_doc_inspect_search" />
     </record>
 
     <menuitem id="menu_docinspect"

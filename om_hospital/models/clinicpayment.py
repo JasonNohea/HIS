@@ -14,17 +14,22 @@ class ClinicPayment(models.Model):
         comodel_name="hospital.patient", string="Patient", required=True
     )
     ref = fields.Char(string="Reference", default=lambda self: _("New"))
+    frontdesk = fields.Many2one(
+        comodel_name="clinic.frontoffice",
+        string="Front Desk Number",
+        domain="[('name', '=', name)]",
+    )
     premed = fields.Many2one(
         comodel_name="medical.check",
         string="Pre Medical Record",
-        domain="[('name', '=', name)]",
+        related="frontdesk.premed",
         # domain="[('check_date', '!=', False)]",
         # default=lambda self: self._default_latest_record,
     )
     record = fields.Many2one(
         comodel_name="doctor.inspection",
         string="Inspection Record",
-        domain="[('name', '=', name)]",
+        related="frontdesk.record",
         # domain="[('check_date', '!=', False)]",
         # default=lambda self: self._default_latest_record,
     )
@@ -50,6 +55,25 @@ class ClinicPayment(models.Model):
         string="Inspection Cost", related="record.total_cost"
     )
 
+    action = fields.Many2many(
+        comodel_name="clinic.action",
+        string="Action",
+        compute="_compute_action",
+        store=False,
+    )
+    action_cost = fields.Float(
+        string="Action Cost", compute="_compute_action_cost", store=False
+    )
+
+    equipment_usage_ids = fields.One2many(
+        comodel_name="equipment.usage",
+        inverse_name="inspection_id",
+        string="Equipment Usage",
+        compute="_compute_equipment_usage_ids",
+        store=False,
+    )
+
+    payment_done = fields.Boolean(string="Payment Done", tracking=True)
     # description = fields.Text(string="Description")
     # status = fields.Selection(
     #     [("todo", "To Do"), ("in_progress", "In Progress"), ("done", "Done")],
@@ -57,34 +81,50 @@ class ClinicPayment(models.Model):
     #     default="todo",
     # )
 
+    def write(self, vals):
+        result = super(ClinicPayment, self).write(vals)
+        if self.frontdesk:
+            # Change status to 'd' in related Form A
+            self.frontdesk.status = "done"
+        return result
+
     @api.model
     def create(self, vals):
-        # Generate the reference code if not provided
         if vals.get("ref", _("New")) == _("New"):
             vals["ref"] = self.env["ir.sequence"].next_by_code("clinic.payment") or _(
                 "New"
             )
 
-        # Create the DoctorInspection record
-        payment = super(ClinicPayment, self).create(vals)
+        record = super(ClinicPayment, self).create(vals)
+        self.update_foffice(vals)
+        return record
 
-        # Update front office records
-        self.update_payment(vals)
-
-        return payment
-
-    def write(self, vals):
-        res = super(ClinicPayment, self).write(vals)
-        if vals:
-            frontoffice_record = self.env["clinic.frontoffice"].search(
-                [("name", "=", self.name.id), ("status", "=", "payment")], limit=1
-            )
-            if frontoffice_record:
-                frontoffice_record.write({"status": "done"})
-        return res
-
-    def update_payment(self, vals):
-        payment_ref = self.env["clinic.frontoffice"].search(
+    def update_foffice(self, vals):
+        foffice_records = self.env["clinic.frontoffice"].search(
             [("name", "=", vals.get("name"))]
         )
-        payment_ref._compute_payment()
+        foffice_records._compute_related_fields()
+
+    @api.depends("record.equipment_usage_ids")
+    def _compute_equipment_usage_ids(self):
+        for payment in self:
+            if payment.record:
+                payment.equipment_usage_ids = payment.record.equipment_usage_ids
+            else:
+                payment.equipment_usage_ids = self.env["equipment.usage"]
+
+    @api.depends("record.action")
+    def _compute_action(self):
+        for payment in self:
+            if payment.record:
+                payment.action = payment.record.action
+            else:
+                payment.action = self.env["clinic.action"]
+
+    @api.depends("record.action_cost")
+    def _compute_action_cost(self):
+        for payment in self:
+            if payment.record:
+                payment.action_cost = payment.record.action_cost
+            else:
+                payment.action_cost = 0

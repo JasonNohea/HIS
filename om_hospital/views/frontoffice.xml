@@ -27,6 +27,7 @@
                             <field name="daycount" />
                             <field name="monthcount" />
                             <field name="yearcount" />
+                            <!-- <field name="_skip_status_update" invisible="0" /> -->
                         </group>
 
                         <!-- Add other fields as needed -->
@@ -72,12 +73,33 @@
         </field>
     </record>
 
+    <record id="view_hospital_clinic_frontoffice_search" model="ir.ui.view">
+        <field name="name">hospital.frontoffice.search</field>
+        <field name="model">clinic.frontoffice</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="check_date" />
+                <field name="main_complaint" />
+                <field name="status" />
+                <filter name="filter_status" string="PreMedical"
+                    domain="[('status', '=', 'premed')]" />
+                <filter name="filter_status" string="DocInspect"
+                    domain="[('status', '=', 'docinspect')]" />
+                <filter name="filter_status" string="Payment"
+                    domain="[('status', '=', 'payment')]" />
+                <filter name="filter_status" string="Done"
+                    domain="[('status', '=', 'done')]" />
+            </search>
+        </field>
+    </record>
 
     <record id="action_hospital_frontoffice" model="ir.actions.act_window">
         <field name="name">Front Office</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">clinic.frontoffice</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="om_hospital.view_hospital_clinic_frontoffice_search" />
     </record>
 
     <menuitem id="menu_frontoffice"

@@ -134,22 +134,6 @@ class HospitalPatient(models.Model):
     )  # required=True,
     family_phone = fields.Char(string="Relative Phone Number", tracking=True)
 
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     # Modify the values in each dictionary
-    #     for vals in vals_list:
-    #         vals["ref"] = self.env["ir.sequence"].next_by_code("hospital.patient")
-    #         # vals["gender"] = "female"
-    #     return super(HospitalPatient, self).create(vals_list)
-
-    # @api.model
-    # def create(self, vals):
-    #     if vals.get("ref", _("New")) == _("New"):
-    #         vals["ref"] = self.env["ir.sequence"].next_by_code("hospital.patient") or _(
-    #             "New"
-    #         )
-    #     return super(HospitalPatient, self).create(vals)
-
     @api.constrains("is_child", "age")
     def _check_child_age(self):
         for rec in self:
@@ -177,60 +161,20 @@ class HospitalPatient(models.Model):
 
     @api.model
     def create(self, vals):
-        # Generate the reference code if not provided
         if vals.get("ref", _("New")) == _("New"):
             vals["ref"] = self.env["ir.sequence"].next_by_code("hospital.patient") or _(
                 "New"
             )
-        # if vals.get("status") == "notcheck":
-        #     vals["status"] = "frontdesk"
 
-        # Create the patient record
         patient = super(HospitalPatient, self).create(vals)
 
         self.env["clinic.frontoffice"].create(
             {"name": patient.id, "status": "frontdesk"}
         )
 
-        # Create a record in the medical.check model if it doesn't exist
-        medical_check_record = self.env["medical.check"].search(
-            [("name", "=", patient.id)]
-        )
-        if not medical_check_record:
-            self.env["medical.check"].create({"name": patient.id})
-
-        # Update the existing medical check record if it exists
-        else:
-            medical_check_record.write({"name": patient.id})
-
+        # self.env["medical.check"].create({"name": patient.id})
         # self.env["doctor.inspection"].create({"name": patient.id})
-
         # self.env["clinic.payment"].create({"name": patient.id})
-
-        # Create a record in the medical.check model if it doesn't exist
-        doc_inspect_record = self.env["doctor.inspection"].search(
-            [("name", "=", patient.id)]
-        )
-        if not doc_inspect_record:
-            self.env["doctor.inspection"].create({"name": patient.id})
-
-        # Update the existing medical check record if it exists
-        else:
-            doc_inspect_record.write({"name": patient.id})
-
-        clinic_payment_record = self.env["clinic.payment"].search(
-            [("name", "=", patient.id)]
-        )
-        if not clinic_payment_record:
-            self.env["clinic.payment"].create({"name": patient.id})
-
-        # Update the existing medical check record if it exists
-        else:
-            clinic_payment_record.write({"name": patient.id})
-
-            # self.env["doctor.inspection"].create({"name": patient.id})
-
-            # self.env["clinic.payment"].create({"name": patient.id})
 
         return patient
 

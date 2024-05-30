@@ -1,7 +1,12 @@
+import logging
 from odoo import models, fields, api, _
+from contextlib import contextmanager
+
+# Set up logging
+_logger = logging.getLogger(__name__)
 
 
-class frontoffice(models.Model):
+class FrontOffice(models.Model):
     _name = "clinic.frontoffice"
     _inherit = ["mail.thread"]
     _description = "Clinic Front Office"
@@ -140,65 +145,9 @@ class frontoffice(models.Model):
         string="Prescription", tracking=True, related="record.prescription"
     )
 
-    # @api.depends("name")
-    # def _compute_record(self):
-    #     for record in self:
-    #         docinspect_record = self.env["doctor.inspection"].search(
-    #             [("name", "=", record.name)], limit=1
-    #         )
-    #         if docinspect_record:
-    #             record.record = docinspect_record.ref
-    #         else:
-    #             record.record = False
-
-    # def write(self, vals):
-    #     # Check if the record is being saved (not created)
-    #     if vals:
-    #         vals["status"] = "premed"  # Set status to 'b' when record is saved
-    #     return super(frontoffice, self).write(vals)
-
-    # def write(self, vals):
-    #     # Check if the record is being saved (not created)
-    #     if vals:
-    #         vals["status"] = "premed"  # Set status to 'premed' when record is saved
-    #     return super(frontoffice, self).write(vals)
-
-    # def _update_status_docinspect(self):
-    #     for record in self:
-    #         record.status = (
-    #             "docinspect"  # Set status to 'docinspect' when Form B is saved
-    #         )
-
-    @api.depends("name")
-    def _compute_record(self):
-        for record in self:
-            docinspectrecord = self.env["doctor.inspection"].search(
-                [("name", "=", record.name.id)], limit=1
-            )
-            if docinspectrecord:
-                record.record = docinspectrecord.id
-            else:
-                record.record = False
-
-    def _compute_premed(self):
-        for premed in self:
-            premedical = self.env["medical.check"].search(
-                [("name", "=", premed.name.id)], limit=1
-            )
-            if premedical:
-                premed.premed = premedical.id
-            else:
-                premed.premed = False
-
-    def _compute_payment(self):
-        for payment in self:
-            clinic_payment = self.env["clinic.payment"].search(
-                [("name", "=", payment.name.id)], limit=1
-            )
-            if clinic_payment:
-                payment.payment = clinic_payment.id
-            else:
-                payment.payment = False
+    _skip_status_update = fields.Boolean(
+        string="Skip Status Update", default=False, store=False
+    )
 
     @api.model
     def create(self, vals):
@@ -207,34 +156,46 @@ class frontoffice(models.Model):
                 "New"
             )
 
-        # Create the front office record
-        foffice = super(frontoffice, self).create(vals)
+        foffice = super(FrontOffice, self).create(vals)
 
-        # Update the corresponding premed record with the front office reference
-        premed = self.env["medical.check"].search(
-            [("name", "=", foffice.name.id)], limit=1
+        patient_id = foffice.name.id
+
+        self.env["medical.check"].create({"name": patient_id, "frontdesk": foffice.id})
+        self.env["doctor.inspection"].create(
+            {"name": patient_id, "frontdesk": foffice.id}
         )
-        if premed:
-            premed.write({"frontdesk": foffice.id})
+        self.env["clinic.payment"].create({"name": patient_id, "frontdesk": foffice.id})
 
-        return foffice
+        # premed = self.env["medical.check"].search([("name", "=", patient_id)], limit=1)
+        # if premed:
+        #     premed.write({"frontdesk": foffice.id})
 
-    # def update_ref_premed(self, vals):
-    #     premed = self.env["medical.check"].search([("name", "=", vals.get("name"))])
-    #     premed._get_frontoffice()
+    @api.depends("name")
+    def _compute_related_fields(self):
+        for record in self:
+            record.premed = (
+                self.env["medical.check"]
+                .search([("name", "=", record.name.id)], limit=1)
+                .id
+            )
+            record.record = (
+                self.env["doctor.inspection"]
+                .search([("name", "=", record.name.id)], limit=1)
+                .id
+            )
+            record.payment = (
+                self.env["clinic.payment"]
+                .search([("name", "=", record.name.id)], limit=1)
+                .id
+            )
 
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     # Modify the values in each dictionary
-    #     for vals in vals_list:
-    #         vals["ref"] = self.env["ir.sequence"].next_by_code("clinic.frontdesk")
-    #         # vals["gender"] = "female"
-    #     return super(frontoffice, self).create(vals_list)
+    def write(self, vals):
+        if "status" not in vals:
+            # Change status to 'b' only if not already changed to 'c' or 'd'
+            if self.status == "frontdesk":
+                vals["status"] = "premed"
+        return super(FrontOffice, self).write(vals)
 
-    # description = fields.Text(string="Description")
-
-    # def _default_latest_record(self):
-    #     latest_record = self.env["doctor.inspection"].search(
-    #         [], order="check_date DESC", limit=1
-    #     )
-    #     return latest_record.id if latest_record else False
+    def _update_status(self, new_status):
+        self.status = new_status
+        _logger.info(f"Status updated to {new_status}")
