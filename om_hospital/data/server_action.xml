@@ -1,0 +1,14 @@
+<odoo>
+    <record id="populate_doctors_action" model="ir.actions.server">
+        <field name="name">Populate Clinic Doctors</field>
+        <field name="model_id" ref="model_clinic_doctor" />
+        <field name="state">code</field>
+        <field name="code">env['clinic.doctor'].create_random_doctors(5)</field>
+    </record>
+    <record id="populate_nurses_action" model="ir.actions.server">
+        <field name="name">Populate Clinic Nurses</field>
+        <field name="model_id" ref="model_clinic_nurse" />
+        <field name="state">code</field>
+        <field name="code">env['clinic.nurse'].create_random_nurses(5)</field>
+    </record>
+</odoo>

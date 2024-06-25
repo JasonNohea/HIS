@@ -5,19 +5,30 @@
         <field name="model">clinic.nurse</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="%(populate_nurses_action)d" type="action" string="Populate Nurses" />
+                </header>
                 <sheet>
                     <field name="photo" widget="image" style="width: 200px; height: 250px;" />
                     <group string="Personal Information">
-                        <field name="name" />
-                        <field name="gender" />
-                        <field name="phone" />
-                        <field name="email" />
-                        <field name="address" />
-
-                        <!-- Add other fields as needed -->
+                        <group>
+                            <field name="name" />
+                            <field name="gender" />
+                            <field name="phone" />
+                            <field name="email" />
+                            <field name="address" />
+                        </group>
+                        <group>
+                            <field name="date_of_birth" />
+                            <field name="place_of_birth" />
+                            <field name="marital_status" />
+                        </group>
                     </group>
-                    <group name="name" string="Professional Information">
-                        <field name="place_of_birth" />
+                    <group string="Professional Information">
+                        <field name="nursing_license_num" />
+                        <field name="experience" />
+                        <field name="education" />
+                        <field name="work_history" />
                         <field name="description" />
                         <field name="status" />
                     </group>
@@ -39,11 +50,9 @@
                 <field name="name" />
                 <field name="description" />
                 <field name="status" />
-                <!-- <field name="check_date" /> -->
             </tree>
         </field>
     </record>
-
 
     <record id="action_hospital_nurse" model="ir.actions.act_window">
         <field name="name">Nurse</field>

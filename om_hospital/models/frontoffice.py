@@ -118,16 +118,19 @@ class FrontOffice(models.Model):
     room_assigned = fields.Many2one(
         comodel_name="clinic.rooms",
         string="Rooms Assigned",
+        domain=[("status", "=", "vacant")],
     )
 
     doctor_assigned = fields.Many2one(
         comodel_name="clinic.doctor",
         string="Doctor Assigned",
+        domain=[("status", "=", "standby")],
     )
 
     nurse_assigned = fields.Many2one(
         comodel_name="clinic.nurse",
         string="Nurse Assigned",
+        domain=[("status", "=", "standby")],
     )
 
     main_complaint = fields.Char(
