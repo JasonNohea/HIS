@@ -5,6 +5,10 @@
         <field name="model">clinic.action</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="%(populate_actions_action)d" type="action"
+                        string="Populate Actions" />
+                </header>
                 <sheet>
                     <group name="name">
                         <field name="name" />

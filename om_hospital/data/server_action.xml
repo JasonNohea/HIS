@@ -5,10 +5,35 @@
         <field name="state">code</field>
         <field name="code">env['clinic.doctor'].create_random_doctors(5)</field>
     </record>
+
     <record id="populate_nurses_action" model="ir.actions.server">
         <field name="name">Populate Clinic Nurses</field>
         <field name="model_id" ref="model_clinic_nurse" />
         <field name="state">code</field>
         <field name="code">env['clinic.nurse'].create_random_nurses(5)</field>
     </record>
+
+    <record id="populate_actions_action" model="ir.actions.server">
+        <field name="name">Populate Clinic Actions</field>
+        <field name="model_id" ref="model_clinic_action" />
+        <field name="state">code</field>
+        <field name="code">env['clinic.action'].create_random_actions()</field>
+    </record>
+
+    <record id="populate_equipment_action" model="ir.actions.server">
+        <field name="name">Populate Clinic Equipment</field>
+        <field name="model_id" ref="model_clinic_equipment" />
+        <field name="state">code</field>
+        <field name="code">env['clinic.equipment'].create_predefined_equipment()</field>
+    </record>
+
+    <odoo>
+        <record id="populate_rooms_action" model="ir.actions.server">
+            <field name="name">Populate Clinic Rooms</field>
+            <field name="model_id" ref="model_clinic_rooms" />
+            <field name="state">code</field>
+            <field name="code">env['clinic.rooms'].create_predefined_rooms()</field>
+        </record>
+    </odoo>
+
 </odoo>

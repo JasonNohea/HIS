@@ -5,6 +5,9 @@
         <field name="model">clinic.rooms</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="%(populate_rooms_action)d" type="action" string="Populate Rooms" />
+                </header>
                 <sheet>
                     <group name="name">
                         <field name="name" string="name" />
