@@ -15,9 +15,7 @@
                     <group string="Personal Information">
                         <group>
                             <field name="name" string="Name" required="1" />
-                            <!-- <field name="status" invisible="0" /> -->
                             <field name="phone" />
-                            <!-- <field name="capitalized_name" /> -->
                             <field name="gender" widget="radio" options="{'horizontal': true}" />
                             <field name="bloodtype" widget="selection_badge"
                                 options="{'horizontal': true}" />
@@ -28,7 +26,6 @@
                             <field name="yearcount" />
                             <field name="address" required="1" />
                         </group>
-
                         <group>
                             <field name="job" />
                             <field name="residential_code" />
@@ -38,18 +35,25 @@
                             <field name="religion" />
                             <field name="marital_status" />
                             <field name="notes" />
-                            <!-- <field name="payment_method" /> -->
                         </group>
                     </group>
-
                     <group string="Contactable family members">
                         <field name="family_name" />
                         <field name="family_gender" widget="radio" options="{'horizontal': true}" />
                         <field name="family_relation" />
                         <field name="family_phone" />
                     </group>
-
+                    <div class="custom-button-wrapper">
+                        <button name="action_navigate_to_frontoffice" type="object"
+                            string="Save" class="btn btn-primary" />
+                    </div>
                 </sheet>
+                <!-- <footer>
+                    <div style="text-align: center;">
+                        <button name="action_save_and_navigate_to_frontoffice" type="object"
+                            string="Save and Navigate to Front Office" class="btn btn-primary" />
+                    </div>
+                </footer> -->
                 <div class="oe_chatter">
                     <field name="message_follower_ids" />
                     <field name="message_ids" options="{'post_refresh': 'recipients'}" />

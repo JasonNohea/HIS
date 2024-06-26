@@ -3,6 +3,9 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from datetime import date
 from dateutil.relativedelta import relativedelta
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 # creating databased
@@ -133,6 +136,28 @@ class HospitalPatient(models.Model):
         string="Relative Relation", tracking=True
     )  # required=True,
     family_phone = fields.Char(string="Relative Phone Number", tracking=True)
+
+    def action_navigate_to_frontoffice(self):
+        self.ensure_one()
+
+        _logger.info("Searching for frontoffice record for patient %s", self.name)
+
+        frontoffice = self.env["clinic.frontoffice"].search(
+            [("name", "=", self.id)], limit=1
+        )
+
+        if not frontoffice:
+            _logger.error("Failed to find frontoffice record for patient %s", self.name)
+            raise ValidationError(_("Failed to find frontoffice record."))
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Front Office",
+            "view_mode": "form",
+            "res_model": "clinic.frontoffice",
+            "res_id": frontoffice.id,
+            "target": "current",
+        }
 
     @api.constrains("is_child", "age")
     def _check_child_age(self):

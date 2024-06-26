@@ -14,7 +14,7 @@
                         <field name="type" />
                         <field name="capacity" />
                         <field name="description" />
-                        <field name="equipment" widget="many2many_checkboxes" />
+                        <!-- <field name="equipment" widget="many2many_checkboxes" /> -->
                         <field name="status" />
                         <!-- Add other fields as needed -->
                     </group>
