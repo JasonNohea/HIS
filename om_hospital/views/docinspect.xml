@@ -23,6 +23,10 @@
                         <field name="display" invisible="1" />
                         <!-- Add other fields as needed -->
                     </group>
+                    <div class="custom-button-wrapper">
+                        <button name="action_open_payment_record" type="object"
+                            string="Open Payment" class="btn-primary" />
+                    </div>
                 </sheet>
 
                 <div class="oe_chatter">

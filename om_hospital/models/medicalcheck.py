@@ -63,3 +63,24 @@ class MedicalCheck(models.Model):
             [("name", "=", vals.get("name"))]
         )
         foffice_records._compute_related_fields()
+
+    def action_open_inspection_record(self):
+        inspection = self.env["doctor.inspection"].search(
+            [("name", "=", self.name.id)], limit=1
+        )
+        if inspection:
+            return {
+                "type": "ir.actions.act_window",
+                "res_model": "doctor.inspection",
+                "view_mode": "form",
+                "res_id": inspection.id,
+                "target": "current",
+            }
+        else:
+            return {
+                "type": "ir.actions.act_window",
+                "res_model": "doctor.inspection",
+                "view_mode": "form",
+                "target": "current",
+                "context": {"default_name": self.name.id},
+            }

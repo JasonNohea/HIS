@@ -128,3 +128,8 @@ class ClinicPayment(models.Model):
                 payment.action_cost = payment.record.action_cost
             else:
                 payment.action_cost = 0
+
+    def action_save(self):
+        # Additional logic to be executed before saving, if any
+        self.ensure_one()
+        self.write({})

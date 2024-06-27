@@ -1,5 +1,6 @@
 import logging
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 from contextlib import contextmanager
 
 # Set up logging
@@ -151,6 +152,32 @@ class FrontOffice(models.Model):
     _skip_status_update = fields.Boolean(
         string="Skip Status Update", default=False, store=False
     )
+
+    def action_navigate_to_medical_check(self):
+        self.ensure_one()
+
+        _logger.info(
+            "Searching for medical.check record for patient %s", self.name.name
+        )
+
+        medical_check = self.env["medical.check"].search(
+            [("name", "=", self.name.id)], limit=1
+        )
+
+        if not medical_check:
+            _logger.error(
+                "Failed to find medical.check record for patient %s", self.name.name
+            )
+            raise ValidationError(_("Failed to find medical.check record."))
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Medical Check",
+            "view_mode": "form",
+            "res_model": "medical.check",
+            "res_id": medical_check.id,
+            "target": "current",
+        }
 
     @api.model
     def create(self, vals):

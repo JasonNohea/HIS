@@ -131,3 +131,24 @@ class DoctorInspection(models.Model):
     #     # Call method to update records in Form A
     #     self.update_foffice(vals)
     #     return record
+
+    def action_open_payment_record(self):
+        payment = self.env["clinic.payment"].search(
+            [("name", "=", self.name.id)], limit=1
+        )
+        if payment:
+            return {
+                "type": "ir.actions.act_window",
+                "res_model": "clinic.payment",
+                "view_mode": "form",
+                "res_id": payment.id,
+                "target": "current",
+            }
+        else:
+            return {
+                "type": "ir.actions.act_window",
+                "res_model": "clinic.payment",
+                "view_mode": "form",
+                "target": "current",
+                "context": {"default_name": self.name.id},
+            }
