@@ -6,22 +6,27 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <group>
+                    <group string="Inspection Details">
                         <field name="ref" readonly="1" />
                         <field name="name" />
-                        <field name="frontdesk" />
+                        <field name="frontdesk" invisible="1" />
+                        <field name="doctor_assigned" />
                         <field name="check_date" />
+                    </group>
+                    <group string="Diagnosis and Notes">
                         <field name="interim_diagnosis" />
                         <field name="additional_consult" />
                         <field name="prescription" />
                         <field name="additional_note" />
+                    </group>
+                    <group string="Actions and Equipment">
                         <field name="action" widget="many2many_checkboxes" />
                         <field name="equipment_usage_ids" />
+                    </group>
+                    <group string="Costs">
                         <field name="action_cost" />
                         <field name="equipment_cost" />
                         <field name="total_cost" />
-                        <field name="display" invisible="1" />
-                        <!-- Add other fields as needed -->
                     </group>
                     <div class="custom-button-wrapper">
                         <button name="action_open_payment_record" type="object"

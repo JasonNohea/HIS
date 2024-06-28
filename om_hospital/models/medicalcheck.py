@@ -12,11 +12,19 @@ class MedicalCheck(models.Model):
     name = fields.Many2one(
         comodel_name="hospital.patient", string="Patient", required=True
     )
+
     frontdesk = fields.Many2one(
         comodel_name="clinic.frontoffice",
         string="Front Desk Number",
         domain="[('name', '=', name)]",
     )
+
+    nurse_assigned = fields.Many2one(
+        string="Nurse Assigned",
+        related="frontdesk.nurse_assigned",
+        # domain=[("status", "=", "standby")],
+    )
+
     status = fields.Selection(related="frontdesk.status", string="status")
     ref = fields.Char(string="Reference", default=lambda self: _("New"))
 

@@ -6,21 +6,28 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <group>
-                        <!-- Add other fields as needed -->
+                    <group string="Payment Details">
                         <field name="name" />
                         <field name="frontdesk" />
-                        <field name="premed" />
-                        <field name="record" />
                         <field name="ref" />
                         <field name="check_date" />
+                    </group>
+                    <group string="Pre-Medical Record">
+                        <field name="premed" />
                         <field name="main_complaint" />
+                    </group>
+                    <group string="Doctor Inspection Record">
+                        <field name="record" />
                         <field name="interim_diagnosis" />
                         <field name="prescription" />
+                    </group>
+                    <group string="Actions and Costs">
                         <field name="action" />
                         <field name="action_cost" />
                         <field name="equipment_usage_ids" />
                         <field name="inspection_cost" />
+                    </group>
+                    <group string="Status">
                         <field name="payment_done" />
                     </group>
                     <div class="custom-button-wrapper">

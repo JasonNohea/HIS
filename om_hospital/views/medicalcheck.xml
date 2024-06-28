@@ -6,13 +6,18 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <group>
+                    <group string="Patient Information">
                         <field name="name" />
                         <field name="ref" />
-                        <field name="status" invisible="0" />
-                        <field name="frontdesk" invisible="0" />
+                        <field name="frontdesk" invisible="1" />
+                        <field name="status" invisible="1" />
+                    </group>
+                    <group string="Medical Details">
+                        <field name="nurse_assigned" />
                         <field name="main_complaint" />
                         <field name="check_date" />
+                    </group>
+                    <group string="Vital Signs">
                         <field name="weight" />
                         <field name="height" />
                         <field name="blood_pressure" />

@@ -19,6 +19,13 @@ class DoctorInspection(models.Model):
         string="Front Desk Number",
         domain="[('name', '=', name)]",
     )
+
+    doctor_assigned = fields.Many2one(
+        related="frontdesk.doctor_assigned",
+        string="Doctor Assigned",
+        # domain=[("status", "=", "standby")],
+    )
+
     status = fields.Selection(related="frontdesk.status", string="status")
     check_date = fields.Date(string="Check Date", default=fields.Date.today)
 
