@@ -20,6 +20,7 @@
         "views/medicalcheck.xml",
         "views/docinspect.xml",
         "views/clinicpayment.xml",
+        "views/actionlog.xml",
         "views/doctor.xml",
         "reports/patient_card.xml",
         "reports/report.xml",

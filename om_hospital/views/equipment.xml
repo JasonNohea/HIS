@@ -10,18 +10,15 @@
                         string="Populate Equipment" />
                 </header>
                 <sheet>
-                    <group name="name">
+                    <group string="Equipment/Supplies Details">
                         <field name="name" />
                         <field name="stock" />
                         <field name="type" widget="radio" options="{'horizontal': true}" />
-                        <!-- <field name="quantity" /> -->
                         <field name="cost" />
                         <field name="provider" />
                         <field name="description" />
                         <field name="status" />
-                        <!-- Add other fields as needed -->
                     </group>
-
                 </sheet>
 
                 <div class="oe_chatter">
@@ -56,7 +53,7 @@
     </record>
 
     <menuitem id="menu_action"
-        name="Equipment"
+        name="Equipment/Supply"
         parent="menu_hospital_master"
         action="action_hospital_equipment"
         sequence="10" />

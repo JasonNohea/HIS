@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_hospital_equipment_usage_form" model="ir.ui.view">
-        <field name="name">hospital.equipment.usage.form</field>
-        <field name="model">equipment.usage</field>
+    <record id="view_hospital_action_log_form" model="ir.ui.view">
+        <field name="name">hospital.action.log.form</field>
+        <field name="model">action.log</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
                     <group string="Equipment Usage Details">
                         <field name="name" />
                         <field name="inspection_id" />
-                        <field name="quantity" />
+                        <field name="notes" />
+                        <!-- <field name="quantity" /> -->
                         <field name="usage_cost" />
-                        <field name="total_cost" />
+                        <!-- <field name="total_cost" /> -->
                     </group>
                 </sheet>
 
@@ -23,30 +24,31 @@
         </field>
     </record>
 
-    <record id="view_hospital_equipment_usage_tree" model="ir.ui.view">
-        <field name="name">hospital.equipment.usage.tree</field>
-        <field name="model">equipment.usage</field>
+    <record id="view_hospital_action_log_tree" model="ir.ui.view">
+        <field name="name">hospital.action.log.tree</field>
+        <field name="model">action.log</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
                 <!-- <field name="inspection_id" /> -->
-                <field name="quantity" />
+                <!-- <field name="quantity" /> -->
+                <field name="notes" />
                 <field name="usage_cost" />
-                <field name="total_cost" />
+                <!-- <field name="total_cost" /> -->
             </tree>
         </field>
     </record>
 
-    <record id="action_hospital_equsage" model="ir.actions.act_window">
-        <field name="name">Equipment Usage</field>
+    <record id="action_hospital_actionlog" model="ir.actions.act_window">
+        <field name="name">Action Log</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">equipment.usage</field>
+        <field name="res_model">action.log</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_equipment_usage"
-        name="Equipment Usage"
+    <menuitem id="menu_action_log"
+        name="Action Log"
         parent="menu_hospital_operations"
-        action="action_hospital_equsage"
+        action="action_hospital_actionlog"
         sequence="11" />
 </odoo>

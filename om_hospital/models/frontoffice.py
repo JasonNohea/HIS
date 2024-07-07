@@ -149,6 +149,8 @@ class FrontOffice(models.Model):
         string="Prescription", tracking=True, related="record.prescription"
     )
 
+    total_cost = fields.Float(string="Total Cost", related="record.total_cost")
+
     _skip_status_update = fields.Boolean(
         string="Skip Status Update", default=False, store=False
     )

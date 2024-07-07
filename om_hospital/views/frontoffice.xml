@@ -47,6 +47,7 @@
                         <field name="nurse_assigned" />
                         <field name="interim_diagnosis" />
                         <field name="prescription" />
+                        <field name="total_cost" />
                     </group>
                     <div class="custom-button-wrapper">
                         <button name="action_navigate_to_medical_check"
@@ -54,9 +55,7 @@
                             type="object"
                             class="btn-primary" />
                     </div>
-
                 </sheet>
-
                 <div class="oe_chatter">
                     <field name="message_follower_ids" />
                     <field name="message_ids" options="{'post_refresh': 'recipients'}" />
@@ -70,10 +69,14 @@
         <field name="model">clinic.frontoffice</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" />
                 <field name="check_date" />
+                <field name="nurse_assigned" />
+                <field name="doctor_assigned" />
+                <field name="name" />
                 <field name="main_complaint" />
+                <field name="interim_diagnosis" />
                 <field name="status" />
+                <field name="total_cost" />
                 <!-- <field name="cost" /> -->
                 <!-- <field name="check_date" /> -->
             </tree>

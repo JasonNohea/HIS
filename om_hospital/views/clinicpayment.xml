@@ -22,10 +22,12 @@
                         <field name="prescription" />
                     </group>
                     <group string="Actions and Costs">
-                        <field name="action" />
+                        <!-- <field name="action" /> -->
+                        <field name="action_log_ids" />
                         <field name="action_cost" />
                         <field name="equipment_usage_ids" />
                         <field name="inspection_cost" />
+                        <field name="total_cost" />
                     </group>
                     <group string="Status">
                         <field name="payment_done" />

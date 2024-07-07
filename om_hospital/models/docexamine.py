@@ -40,8 +40,11 @@ class DoctorInspection(models.Model):
     additional_note = fields.Text(
         string="Additional Notes or Doctor's Observations", tracking=True
     )
+    action_log_ids = fields.One2many(
+        "action.log", "inspection_id", string="Action Logs"
+    )
     action = fields.Many2many("clinic.action", string="Action")
-    display = fields.Char(string="Display", compute="_display", store=True)
+    # display = fields.Char(string="Display", compute="_display", store=True)
     equipment_usage_ids = fields.One2many(
         "equipment.usage", "inspection_id", string="Equipment Lines"
     )
@@ -66,16 +69,28 @@ class DoctorInspection(models.Model):
             self.frontdesk.status = "payment"
         return result
 
-    @api.depends("action")
-    def _display(self):
-        for record in self:
-            display_str = ", ".join(record.action.mapped("name"))
-            record.display = display_str
+    # @api.depends("action")
+    # def _display(self):
+    #     for record in self:
+    #         display_str = ", ".join(record.action.mapped("name"))
+    #         record.display = display_str
 
-    @api.depends("action.cost")
+    # @api.depends("action.cost")
+    # def _compute_action_cost(self):
+    #     for check in self:
+    #         action_cost = sum(check.action.mapped("cost"))
+    #         check.action_cost = action_cost
+
+    # @api.depends("action_log_ids")
+    # def _display(self):
+    #     for record in self:
+    #         display_str = ", ".join(record.action_log_ids.mapped("name"))
+    #         record.display = display_str
+
+    @api.depends("action_log_ids.usage_cost")
     def _compute_action_cost(self):
         for check in self:
-            action_cost = sum(check.action.mapped("cost"))
+            action_cost = sum(check.action_log_ids.mapped("usage_cost"))
             check.action_cost = action_cost
 
     @api.depends("equipment_usage_ids.total_cost")

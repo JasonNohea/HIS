@@ -10,14 +10,12 @@
                         string="Populate Actions" />
                 </header>
                 <sheet>
-                    <group name="name">
+                    <group string="Action Details">
                         <field name="name" />
                         <field name="cost" />
                         <field name="description" />
                         <field name="status" />
-                        <!-- Add other fields as needed -->
                     </group>
-
                 </sheet>
 
                 <div class="oe_chatter">

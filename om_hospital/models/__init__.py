@@ -10,3 +10,4 @@ from . import clinicaction
 from . import equipment
 from . import frontoffice
 from . import equsage
+from . import actionlog

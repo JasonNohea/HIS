@@ -20,7 +20,16 @@
                         <field name="additional_note" />
                     </group>
                     <group string="Actions and Equipment">
-                        <field name="action" widget="many2many_checkboxes" />
+                        <!-- <field name="action" widget="many2many_checkboxes" /> -->
+
+                        <field name="action_log_ids">
+                            <tree editable="bottom">
+                                <field name="name" />
+                                <field name="notes" />
+                                <field name="usage_cost" />
+                            </tree>
+                        </field>
+
                         <field name="equipment_usage_ids" />
                     </group>
                     <group string="Costs">
@@ -51,7 +60,7 @@
                 <field name="status" />
                 <field name="interim_diagnosis" />
                 <!-- <field name="treatment_approach" /> -->
-                <field name="display" />
+                <!-- <field name="display" /> -->
             </tree>
         </field>
     </record>
@@ -65,7 +74,7 @@
                 <field name="status" />
                 <field name="interim_diagnosis" />
                 <!-- <field name="treatment_approach" /> -->
-                <field name="display" />
+                <!-- <field name="display" /> -->
                 <filter name="filter_status" string="DocInspect"
                     domain="[('status', '=', 'docinspect')]" />
             </search>

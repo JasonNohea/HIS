@@ -9,16 +9,13 @@
                     <button name="%(populate_rooms_action)d" type="action" string="Populate Rooms" />
                 </header>
                 <sheet>
-                    <group name="name">
-                        <field name="name" string="name" />
+                    <group string="Room Details">
+                        <field name="name" string="Room Name" />
                         <field name="type" />
                         <field name="capacity" />
                         <field name="description" />
-                        <!-- <field name="equipment" widget="many2many_checkboxes" /> -->
                         <field name="status" />
-                        <!-- Add other fields as needed -->
                     </group>
-
                 </sheet>
 
                 <div class="oe_chatter">

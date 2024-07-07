@@ -61,8 +61,16 @@ class ClinicPayment(models.Model):
         compute="_compute_action",
         store=False,
     )
+
+    action_log_ids = fields.One2many(
+        comodel_name="action.log",
+        inverse_name="inspection_id",
+        string="Action",
+        compute="_compute_action_log_ids",
+        store=False,
+    )
     action_cost = fields.Float(
-        string="Action Cost", compute="_compute_action_cost", store=False
+        string="Action Cost", related="record.action_cost", store=False
     )
 
     equipment_usage_ids = fields.One2many(
@@ -72,6 +80,7 @@ class ClinicPayment(models.Model):
         compute="_compute_equipment_usage_ids",
         store=False,
     )
+    total_cost = fields.Float(string="Total Cost", related="record.total_cost")
 
     payment_done = fields.Boolean(string="Payment Done", tracking=True)
     # description = fields.Text(string="Description")
@@ -112,6 +121,14 @@ class ClinicPayment(models.Model):
                 payment.equipment_usage_ids = payment.record.equipment_usage_ids
             else:
                 payment.equipment_usage_ids = self.env["equipment.usage"]
+
+    @api.depends("record.action_log_ids")
+    def _compute_action_log_ids(self):
+        for payment in self:
+            if payment.record:
+                payment.action_log_ids = payment.record.action_log_ids
+            else:
+                payment.action_log_ids = self.env["action.log"]
 
     @api.depends("record.action")
     def _compute_action(self):
