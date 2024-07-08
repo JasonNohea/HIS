@@ -6,7 +6,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="%(populate_rooms_action)d" type="action" string="Populate Rooms" />
+                    <!-- <button name="%(populate_rooms_action)d" type="action" string="Populate
+                    Rooms" /> -->
                 </header>
                 <sheet>
                     <group string="Room Details">

@@ -7,8 +7,8 @@
             <form>
                 <header>
                     <!-- Add the button in the header section -->
-                    <button name="%(populate_doctors_action)d" type="action"
-                        string="Populate Doctors" />
+                    <!-- <button name="%(populate_doctors_action)d" type="action"
+                        string="Populate Doctors" /> -->
                 </header>
                 <sheet>
                     <field name="photo" widget="image" style="width: 200px; height: 250px;" />

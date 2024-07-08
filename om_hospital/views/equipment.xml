@@ -6,8 +6,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="%(populate_equipment_action)d" type="action"
-                        string="Populate Equipment" />
+                    <!-- <button name="%(populate_equipment_action)d" type="action"
+                        string="Populate Equipment" /> -->
                 </header>
                 <sheet>
                     <group string="Equipment/Supplies Details">
